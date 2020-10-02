@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.time`
-  font-weight: 400;
-  opacity: 0.5;
-  display: inline-block;
-  font-size: 12px;
+    font-weight: 400;
+    opacity: 0.5;
+    display: inline-block;
+    font-size: 12px;
 `;
 
 /**

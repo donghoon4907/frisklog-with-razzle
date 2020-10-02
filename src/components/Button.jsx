@@ -2,22 +2,22 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.button`
-  display: block;
-  height: 100%;
-  width: 100%;
-  border: 0;
-  border-radius: ${props => props.theme.borderRadius};
-  color: white;
-  font-weight: 600;
-  background: ${props => props.theme.blueColor};
-  text-align: center;
-  padding: 7px;
-  font-size: 14px;
-  border: 1px solid ${props => props.theme.blueColor};
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    border-radius: ${(props) => props.theme.borderRadius};
+    color: white;
+    font-weight: 600;
+    background: ${(props) => props.theme.blueColor};
+    text-align: center;
+    padding: 7px;
+    font-size: 14px;
+    border: 1px solid ${(props) => props.theme.blueColor};
 
-  &:hover {
-    opacity: 0.8;
-  }
+    &:hover {
+        opacity: 0.8;
+    }
 `;
 
 /**
@@ -29,8 +29,8 @@ const Container = styled.button`
  * @param props.type    버튼 타입
  */
 const Button = ({ onClick, type = "button", children }) => (
-  <Container onClick={onClick} type={type}>
-    {children}
-  </Container>
+    <Container onClick={onClick} type={type}>
+        {children}
+    </Container>
 );
 export default Button;

@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@apollo/client@^3.2.1":
+"@apollo/client@^3.2.1", "@apollo/client@latest":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.2.1.tgz#178dfcc1eb3a35052df8f2bd44be195b78f56e93"
   integrity sha512-w1EdCf3lvSwsxG2zbn8Rm31nPh9gQrB7u61BnU1QCM5BNIfOxiuuldzGNMHi5kI9KleisFvZl/9OA7pEkVg/yw==
@@ -21,6 +21,13 @@
     ts-invariant "^0.4.4"
     tslib "^1.10.0"
     zen-observable "^0.8.14"
+
+"@apollo/react-components@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@apollo/react-components/-/react-components-4.0.0.tgz#4d994708337eaa117a5e639b4a664f0e560663d3"
+  integrity sha512-JI0qnvROVC8bPbtPVzHKNHkDhohv8f8a8DNGjyI9seLeB2V0NMT3c1qEUs+zsu0W+SdDdRaUKE3DjsEuxj92Ew==
+  dependencies:
+    "@apollo/client" latest
 
 "@babel/code-frame@7.8.3":
   version "7.8.3"
@@ -455,7 +462,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.4"
 
-"@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
+"@babel/plugin-syntax-dynamic-import@^7.7.4", "@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
   integrity sha512-5gdGbFon+PszYzqs83S3E5mpi7/y/8M9eC90MRTZfduQOYW76ig6SOSPNe41IG5LoP3FGBn2N0RjVDSQiS94kQ==
@@ -973,7 +980,7 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.11.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
   integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
@@ -1216,6 +1223,36 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
+
+"@loadable/babel-plugin@^5.13.2":
+  version "5.13.2"
+  resolved "https://registry.yarnpkg.com/@loadable/babel-plugin/-/babel-plugin-5.13.2.tgz#373cddc64ee5437814f7dca1c1b6a7b2c1665a9f"
+  integrity sha512-vSZUVeTH1S1sDbk8Tzft0plZSkN7W4zmVR5w/Bmy4UmvBiu9lin7ztrDpoUTUzxpoups+OJbTc/OosvN0aMXWg==
+  dependencies:
+    "@babel/plugin-syntax-dynamic-import" "^7.7.4"
+
+"@loadable/component@^5.13.2":
+  version "5.13.2"
+  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.13.2.tgz#219b679c9e76bb5dd247923a3195ad3ef92cf977"
+  integrity sha512-eCtJhCFfUg7dzEBc5O4ZNfG0wftCLVSzpfOw9qPYJ16T/bmvrGRDdY8q/ARM4o90MOFlJzIRepnuXnqxB5ZUyQ==
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    hoist-non-react-statics "^3.3.1"
+    react-is "^16.12.0"
+
+"@loadable/server@^5.13.2":
+  version "5.13.2"
+  resolved "https://registry.yarnpkg.com/@loadable/server/-/server-5.13.2.tgz#e8a4e9bb08a3112772d5d171c0fa905e0c13c8c9"
+  integrity sha512-2Nn4YdpAuXngP5H3OQ1TlmdILLx35jyCZ0iOVWAf0ihdkWBYXbAiwOTYt+r2vQiXIGeAaQc44GkKgod8Vp5S8g==
+  dependencies:
+    lodash "^4.17.15"
+
+"@loadable/webpack-plugin@^5.13.0":
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/@loadable/webpack-plugin/-/webpack-plugin-5.13.0.tgz#40af22f0955dbb669498a65fbf90c07e3c829538"
+  integrity sha512-MrMnpci590POKdmyTTaj/hv8A5BhGfG3Sg8WJ9M/HxEPnjoOFGWWSnV0yqBEi05etILE0Gl9xL5GSK/nZQbdOw==
+  dependencies:
+    make-dir "^3.0.2"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -4918,7 +4955,7 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.1.0, hoist-non-react-statics@^3.3.2:
+hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.1.0, hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -8643,7 +8680,7 @@ react-helmet@^6.1.0:
     react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
 
-react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
+react-is@^16.12.0, react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -9853,6 +9890,11 @@ styled-components@^5.2.0:
     hoist-non-react-statics "^3.0.0"
     shallowequal "^1.1.0"
     supports-color "^5.5.0"
+
+styled-normalize@^8.0.7:
+  version "8.0.7"
+  resolved "https://registry.yarnpkg.com/styled-normalize/-/styled-normalize-8.0.7.tgz#e883bff6a0c59a65a39365a4eb9c6cf48372c61f"
+  integrity sha512-qQV4O7B9g7ZUnStCwGde7Dc/mcFF/pz0Ha/LL7+j/r6uopf6kJCmmR7jCPQMCBrDkYiQ4xvw1hUoceVJkdaMuQ==
 
 stylehacks@^4.0.0:
   version "4.0.3"

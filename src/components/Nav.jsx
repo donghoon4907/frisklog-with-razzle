@@ -3,19 +3,23 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "../context";
 import { EXPAND_NAVIGATION, CONTRACT_NAVIGATION } from "../context/action";
 import { COLLAPSE_KEY, getStorage, setStorage } from "../lib/state";
-import { Collapse } from "../icons";
+import { Collapse } from "../assets/icon";
 import RecommandUserList from "./RecommandUserList";
+import RecommandCategoryList from "./RecommandCategoryList";
 
-const Container = styled.div`
+const Container = styled.nav`
     background: #efeff1;
     width: ${(props) => (props.collapse === "expand" ? 230 : 60)}px;
-    height: calc(100vh - 3rem);
-    z-index: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
     padding: 8px;
-    position: fixed;
-    top: 3rem;
+    z-index: 10;
+    flex-shrink: 0;
+
+    ${(props) => props.theme.media.desktop} {
+        display: none;
+    }
 
     & svg {
         transform: rotate(
@@ -23,8 +27,13 @@ const Container = styled.div`
         );
     }
 
-    ${(props) => props.theme.media.desktop} {
-        display: none;
+    & h6 {
+        margin-top: 10px;
+        display: ${(props) => (props.collapse === "expand" ? "block" : "none")};
+    }
+
+    & hr {
+        display: ${(props) => (props.collapse === "expand" ? "none" : "block")};
     }
 `;
 
@@ -33,13 +42,6 @@ const Top = styled.div`
     justify-content: ${(props) =>
         props.collapse === "expand" ? "space-between" : "center"};
     align-items: center;
-    padding-top: 10px;
-    padding-bottom: 1rem;
-
-    & > h6 {
-        margin-bottom: 0px;
-        display: ${(props) => (props.collapse === "expand" ? "block" : "none")};
-    }
 `;
 
 /**
@@ -89,14 +91,28 @@ const Nav = () => {
     }, []);
 
     return (
-        <Container collapse={isCollapseNav}>
+        <Container collapse={isCollapseNav} id="nav">
             <Top collapse={isCollapseNav}>
                 <h6>추천 블로그</h6>
-                <div onClick={handleClickCollapse}>
+                <button
+                    type="button"
+                    aria-pressed={isCollapseNav === "expand"}
+                    aria-expanded={isCollapseNav === "expand"}
+                    aria-controls="nav"
+                    onClick={handleClickCollapse}
+                >
                     <Collapse />
-                </div>
+                    <span className="a11y-hidden">
+                        {isCollapseNav === "expand"
+                            ? "네비게이션 축소"
+                            : "네비게이션 확장"}
+                    </span>
+                </button>
             </Top>
             <RecommandUserList />
+            <hr />
+            <h6>추천 카테고리</h6>
+            <RecommandCategoryList />
         </Container>
     );
 };

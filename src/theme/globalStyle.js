@@ -1,20 +1,42 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
+import normalize from "styled-normalize";
 
-export default createGlobalStyle`
-  * {
-    box-sizing: border-box;
-  }
+const GlobalStyle = createGlobalStyle`
+  ${normalize}
 
   body {
-    background: rgba(0,0,0,0.03);
+    background: rgba(0,0,0,0.03) !important;
+  }
+  
+  #root, body, html {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    width: 100%;
   }
 
-  svg {
-    cursor: pointer;
+  hr {
+    border-top-color: #efeff5 !important;
+    width: 100%;
+  }
 
-    &:hover {
-      opacity: 0.7;
-    }
+  button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .a11y-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: polygon(0 0, 0 0, 0 0);
   }
 
   .modal {
@@ -33,4 +55,18 @@ export default createGlobalStyle`
   .modal-content {
     max-width: 500px;
   }
-`
+
+  .te-mode-switch-section {
+    display: none !important;
+  }
+
+  .tui-editor-contents pre {
+    ${(props) => props.theme.whiteBox};
+  }
+
+  .tui-editor-contents img {
+    width: 100%;
+  }
+`;
+
+export default GlobalStyle;

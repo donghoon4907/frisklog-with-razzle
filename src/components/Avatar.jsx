@@ -3,20 +3,20 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled(Link)`
-  display: block;
-  width: ${props => props.size}px;
-  height: ${props => props.size}px;
-  border: ${props => props.theme.boxBorder};
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
+    display: block;
+    width: ${(props) => props.size}px;
+    height: ${(props) => props.size}px;
+    border: ${(props) => props.theme.boxBorder};
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
 
-  & img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
+    & img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
 `;
 
 /**
@@ -29,9 +29,9 @@ const Container = styled(Link)`
  * @param props.src     이미지 자원
  */
 const Avatar = ({ userId, size, src }) => (
-  <Container size={size} role="button" to={`/user/${userId}`}>
-    <img src={src} alt="avatar" />
-  </Container>
+    <Container size={size} role="button" to={`/user/${userId}`}>
+        <img src={src} alt="avatar" />
+    </Container>
 );
 
 export default Avatar;

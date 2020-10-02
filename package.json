@@ -3,14 +3,19 @@
     "version": "1.0.0",
     "license": "MIT",
     "scripts": {
-        "start": "razzle start",
+        "dev": "razzle start",
         "build": "razzle build",
         "test": "razzle test --env=jsdom",
-        "start:prod": "NODE_ENV=production node build/server.js",
-        "precommit": "lint-staged"
+        "start": "NODE_ENV=production node build/server.js",
+        "precommit": "lint-staged",
+        "format": "prettier --write '**/*.{js,jsx,css,md}'",
+        "lint": "eslint . --cache --fix"
     },
     "dependencies": {
         "@apollo/client": "^3.2.1",
+        "@apollo/react-components": "^4.0.0",
+        "@loadable/component": "^5.13.2",
+        "@loadable/server": "^5.13.2",
         "@toast-ui/react-editor": "^2.4.0",
         "axios": "^0.20.0",
         "bootstrap": "^4.5.2",
@@ -32,6 +37,8 @@
         "styled-components": "^5.2.0"
     },
     "devDependencies": {
+        "@loadable/babel-plugin": "^5.13.2",
+        "@loadable/webpack-plugin": "^5.13.0",
         "eslint": "^7.10.0",
         "eslint-config-standard": "^14.1.1",
         "eslint-plugin-import": "^2.22.1",
@@ -40,16 +47,17 @@
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-react": "^7.21.2",
         "eslint-plugin-standard": "^4.0.1",
+        "lint-staged": "^10.4.0",
         "prettier": "^2.1.2",
         "razzle": "canary",
-        "lint-staged": "^10.4.0"
+        "styled-normalize": "^8.0.7"
     },
     "lint-staged": {
-        "*.{js,css,md}": [
+        "*.{js,jsx,css,md}": [
             "prettier --write",
             "git add"
         ],
-        "*.js": [
+        "*.{js,jsx}": [
             "eslint --fix",
             "git add",
             "jest --findRelatedTests"

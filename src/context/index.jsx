@@ -1,10 +1,9 @@
-import React, { useReducer, useContext, createContext } from 'react'
-import reducer from './reducer'
-import { COLLAPSE_KEY, getStorage } from '../lib/state'
+import React, { useReducer, useContext, createContext } from "react";
+import reducer from "./reducer";
 
-const Context = createContext(null)
+const Context = createContext(null);
 
-const DispatchContext = createContext(null)
+const DispatchContext = createContext(null);
 
 /**
  * * 로컬 상태
@@ -24,6 +23,7 @@ const DispatchContext = createContext(null)
  * @property activeNotice       - 선택한 공지사항 정보
  * @property searchPostOption   - 검색 옵션
  * @property isCollapseNav      - 네비게이션 확장상태 (expand, contract)
+ * @property cardCountInRow     - 카드형 행당 렌더링할 수 설정
  */
 const initialState = {
     id: null,
@@ -36,31 +36,35 @@ const initialState = {
     isShowSearchBar: false,
     isShowFilterBar: false,
     isShowLoginModal: false,
-    isCollapseNav: getStorage(COLLAPSE_KEY) || 'expand',
+    isCollapseNav: "expand",
+    cardCountInRow: 0,
     activePost: {
-        id: '',
-        title: '',
-        description: ''
+        id: "",
+        title: "",
+        description: ""
     },
     activeNotice: {
-        id: '',
-        action: 'wait',
-        actionText: '비활성화',
-        title: '',
-        description: ''
+        id: "",
+        action: "wait",
+        actionText: "비활성화",
+        title: "",
+        description: ""
     },
+    feedPostOption: {},
     searchPostOption: {
-        orderBy: 'createdAt_DESC',
-        query: '',
-        filter: []
+        first: 30,
+        orderBy: "createdAt_DESC",
+        query: undefined,
+        category: undefined,
+        userId: undefined
     }
-}
+};
 
 /**
  * * 로컬 상태 제공 컴포넌트
  */
 export function ContextProvider({ children }) {
-    const [state, dispatch] = useReducer(reducer, initialState)
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     return (
         <Context.Provider value={state}>
@@ -68,31 +72,31 @@ export function ContextProvider({ children }) {
                 {children}
             </DispatchContext.Provider>
         </Context.Provider>
-    )
+    );
 }
 
 /**
  * * Hooks - 로컬 상태 감시 모듈
  */
 export function useSelector() {
-    const state = useContext(Context)
+    const state = useContext(Context);
 
     if (!state) {
-        throw new Error('Provider is not defined')
+        throw new Error("Provider is not defined");
     }
 
-    return state
+    return state;
 }
 
 /**
  * * Hooks - 로컬 상태 변경 모듈
  */
 export function useDispatch() {
-    const dispatch = useContext(DispatchContext)
+    const dispatch = useContext(DispatchContext);
 
     if (!dispatch) {
-        throw new Error('Provider is not defined')
+        throw new Error("Provider is not defined");
     }
 
-    return dispatch
+    return dispatch;
 }

@@ -1,135 +1,98 @@
-import express from 'express'
-import { StaticRouter } from 'react-router-dom'
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { ServerStyleSheet, ThemeProvider } from 'styled-components'
-import { ApolloProvider } from '@apollo/client'
-import { getDataFromTree } from '@apollo/client/react/ssr'
-import { Helmet } from 'react-helmet'
-import cookieParser from 'cookie-parser'
-import { ContextProvider } from './context'
-import GlobalStyle from './theme/globalStyle'
-import theme from './theme'
-import { initializeApollo } from './lib/apollo'
-import { GET_CATEGORIES } from './graphql/query/category'
-import { GET_USERS } from './graphql/query/user'
-import { GET_NOTICES } from './graphql/query/notice'
-import App from './App'
+import path from "path";
+import express from "express";
+import { StaticRouter } from "react-router-dom";
+import React from "react";
+import { renderToString } from "react-dom/server";
+import { ServerStyleSheet, ThemeProvider } from "styled-components";
+import { ApolloProvider } from "@apollo/client";
+import { getDataFromTree } from "@apollo/client/react/ssr";
+import { Helmet } from "react-helmet";
+import cookieParser from "cookie-parser";
+import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
+import { ContextProvider } from "./context";
+import GlobalStyle from "./theme/globalStyle";
+import theme from "./theme";
+import { initializeApollo } from "./lib/apollo";
+import App from "./App";
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
+//const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 /** init express */
-const server = express()
+const server = express();
 /** init cookie parser */
-server.use(cookieParser())
+server.use(cookieParser());
 
 server
-    .disable('x-powered-by')
+    .disable("x-powered-by")
     .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-    .get('/*', async (req, res) => {
-        const location = req.url
+    .get("/*", async (req, res) => {
+        const location = req.url;
+
+        const extractor = new ChunkExtractor({
+            statsFile: path.resolve("build/loadable-stats.json"),
+            entrypoints: ["client"]
+        });
         /** Init apollo client */
-        const client = initializeApollo()
+        const client = initializeApollo();
         /** Create the server side style sheet */
-        const sheet = new ServerStyleSheet()
-        /** Load recommand users */
-        await client.query({
-            query: GET_USERS,
-            variables: {
-                first: 10,
-                orderBy: 'postCount_DESC'
-            }
-        })
-        /** Load recommand categories */
-        await client.query({
-            query: GET_CATEGORIES,
-            variables: {
-                first: 3,
-                orderBy: 'useCount_DESC'
-            }
-        })
-        /** Load recent notice */
-        await client.query({
-            query: GET_NOTICES,
-            variables: {
-                first: 1,
-                orderBy: 'createdAt_DESC'
-            }
-        })
+        const sheet = new ServerStyleSheet();
 
         const Root = () => (
-            <ApolloProvider client={client}>
-                <ContextProvider>
+            <ChunkExtractorManager extractor={extractor}>
+                <ApolloProvider client={client}>
                     <ThemeProvider theme={theme}>
-                        <StaticRouter location={location} context={{}}>
-                            <>
+                        <ContextProvider>
+                            <GlobalStyle />
+                            <StaticRouter location={location} context={{}}>
                                 <App />
-                                <GlobalStyle />
-                            </>
-                        </StaticRouter>
+                            </StaticRouter>
+                        </ContextProvider>
                     </ThemeProvider>
-                </ContextProvider>
-            </ApolloProvider>
-        )
+                </ApolloProvider>
+            </ChunkExtractorManager>
+        );
 
         try {
             /** get query in pages */
-            await getDataFromTree(<Root />)
+            await getDataFromTree(<Root />);
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
         /** Get apollo cache */
-        const initialApolloState = client.cache.extract()
+        const initialApolloState = client.extract();
         /** When the app is rendered collect the styles that are used inside it */
-        const markup = renderToString(sheet.collectStyles(<Root />))
+        const markup = renderToString(sheet.collectStyles(<Root />));
         /** Generate all the style tags so they can be rendered into the page */
-        const styleTags = sheet.getStyleTags()
-        const helmet = Helmet.renderStatic()
+        const styleTags = sheet.getStyleTags();
+        const helmet = Helmet.renderStatic();
 
-        res.status(200).send(
-            `<!doctype html>
-    <html lang="en" ${helmet.htmlAttributes.toString()}>
-    <head>
-        ${helmet.title.toString()}
-        ${helmet.meta.toString()}
-        ${helmet.link.toString()}
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta charSet='utf-8' />
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-178659482-1"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'UA-178659482-1');
-        </script>
-        
-        ${
-            assets.client.css
-                ? `<link rel="stylesheet" href="${assets.client.css}">`
-                : ''
-        }
-        ${
-            process.env.NODE_ENV === 'production'
-                ? `<script src="${assets.client.js}" defer></script>`
-                : `<script src="${assets.client.js}" defer crossorigin></script>`
-        }
-        <!-- Render the style tags gathered from the components into the DOM -->
-        ${styleTags}
-    </head>
-    <body ${helmet.bodyAttributes.toString()}>
-        <div id="root">${markup}</div>
-           <script>
-          window.__APOLLO_STATE__ = ${JSON.stringify(
-              initialApolloState
-          ).replace(/</g, '\\u003c')}
-        </script>
-    </body>
-</html>`
-        )
-    })
+        res.status(200).send(`
+                <!DOCTYPE html>
+                <html lang="en" ${helmet.htmlAttributes.toString()}>
+                    <head>
+                        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                        <meta charset="utf-8" />
+                        ${helmet.title.toString()}
+                        <meta
+                            name="viewport"
+                            content="width=device-width,initial-scale=1"
+                        />
+                        ${helmet.meta.toString()} ${helmet.link.toString()}
+                        ${extractor.getLinkTags()}
+                        ${extractor.getStyleTags()}
+                        <!-- Render the style tags gathered from the components into the DOM -->
+                        ${styleTags}
+                        ${extractor.getScriptTags()}
+                    </head>
+                    <body ${helmet.bodyAttributes.toString()}>
+                        <div id="root">${markup}</div>
+                        <script>
+                            window.__APOLLO_STATE__ = ${JSON.stringify(
+                                initialApolloState
+                            ).replace(/</g, "\\u003c")};
+                        </script>
+                    </body>
+                </html>
+            `);
+    });
 
-export default server
+export default server;

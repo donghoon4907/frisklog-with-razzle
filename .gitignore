@@ -6,4 +6,8 @@ npm-debug.log*
 coverage
 node_modules
 build
-.env
+# dotenv environment variables file
+.env.*
+
+# Optional eslint cache
+.eslintcache

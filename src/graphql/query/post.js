@@ -1,16 +1,17 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client";
 
 /**
  * * 게시물 검색
  *
  * @query
  * @author frisk
- * @param $skip 건너뛸 목록의 수
- * @param $first 요청 목록의 수
- * @param $orderBy 정렬
- * @param $query 검색어
- * @param $category 카테고리
- * @param $userId 사용자 ID
+ * @param $skip           건너뛸 목록의 수
+ * @param $first          요청 목록의 수
+ * @param $orderBy        정렬
+ * @param $query          검색어
+ * @param $category       카테고리
+ * @param $userId         사용자 ID
+ * @param $notNullThumb   썸네일 있는 것만 요청할 지
  */
 export const GET_POSTS = gql`
     query GetPosts(
@@ -20,6 +21,7 @@ export const GET_POSTS = gql`
         $query: String
         $category: String
         $userId: String
+        $notNullThumb: Boolean
     ) {
         posts(
             skip: $skip
@@ -28,6 +30,7 @@ export const GET_POSTS = gql`
             query: $query
             category: $category
             userId: $userId
+            notNullThumb: $notNullThumb
         ) {
             data {
                 id
@@ -52,11 +55,12 @@ export const GET_POSTS = gql`
                 viewCount
                 commentCount
                 category
+                thumbnail
             }
             total
         }
     }
-`
+`;
 
 /**
  * * 게시물 상세 로드
@@ -92,4 +96,4 @@ export const GET_POST = gql`
             category
         }
     }
-`
+`;

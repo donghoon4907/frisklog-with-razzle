@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import { useQuery } from '@apollo/client'
-import { GET_CATEGORIES } from '../graphql/query/category'
-import Input from './Input'
-import BtnLink from './BtnLink'
-import { Label } from './Form'
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { useDispatch } from "../context";
+import { HIDE_SEARCH_BAR } from "../context/action";
+import Input from "./Input";
+import { Label } from "./Form";
 
 const SearchForm = styled.form`
     position: relative;
@@ -15,13 +14,13 @@ const SearchForm = styled.form`
     ${(props) => props.theme.media.tablet} {
         width: calc(100% - 2rem);
     }
-`
+`;
 
 const Wrapper = styled.div`
     position: relative;
     display: flex;
     justify-content: space-between;
-`
+`;
 
 const SearchInput = styled(Input)`
     background: ${(props) => props.theme.bgColor};
@@ -35,18 +34,7 @@ const SearchInput = styled(Input)`
         opacity: 0.8;
         font-weight: 200;
     }
-`
-
-const CategoryWrapper = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px;
-
-    & > * {
-        margin-right: 10px;
-    }
-`
+`;
 
 /**
  * * 검색 바 컴포넌트
@@ -58,49 +46,50 @@ const HeaderSearchBar = () => {
     /**
      * history 객체 활성화
      */
-    const history = useHistory()
+    const history = useHistory();
     /**
-     * 추천 카테고리 로드
+     * 로컬 상태 변경 모듈 활성화
      */
-    const { data } = useQuery(GET_CATEGORIES, {
-        variables: {
-            first: 3,
-            orderBy: 'useCount_DESC',
-        },
-    })
+    const dispatch = useDispatch();
     /**
      * 검색어 상태 관리 모듈 활성화
      */
-    const [searchKeyword, setSearchKeyword] = useState('')
+    const [searchKeyword, setSearchKeyword] = useState("");
     /**
      * search input element
      */
-    const $search = useRef(null)
+    const $search = useRef(null);
     /**
      * 검색어 변경 핸들러
      */
     const handleChangeSearchKeyword = useCallback((e) => {
-        setSearchKeyword(e.target.value)
-    }, [])
+        setSearchKeyword(e.target.value);
+    }, []);
     /**
      * 검색 요청 핸들러
      */
     const handleSearchSubmit = useCallback(
         (e) => {
-            e.preventDefault()
+            e.preventDefault();
             /**
              * 검색어 입력을 안한 경우
              */
             if (!searchKeyword) {
-                return alert('검색어를 입력하세요')
+                return alert("검색어를 입력하세요");
             }
             /**
              * 페이지 이동
              */
-            history.push(`/search/${searchKeyword}`)
+            history.push(`/search/${searchKeyword}`);
+            /**
+             * 검색바 숨기기
+             */
+            dispatch({
+                type: HIDE_SEARCH_BAR
+            });
         },
         [searchKeyword]
-    )
+    );
     /**
      * 라이프 사이클 모듈 활성화
      */
@@ -108,8 +97,8 @@ const HeaderSearchBar = () => {
         /**
          * 검색창 포커싱
          */
-        $search.current.focus()
-    }, [])
+        $search.current.focus();
+    }, []);
 
     return (
         <SearchForm onSubmit={handleSearchSubmit}>
@@ -126,18 +115,8 @@ const HeaderSearchBar = () => {
                     ref={$search}
                 />
             </Wrapper>
-            <CategoryWrapper>
-                <h6>추천 카테고리</h6>
-                {data.categories.map((category) => (
-                    <span key={category.id}>
-                        <BtnLink to={`/category/${category.content}`}>
-                            {category.content}
-                        </BtnLink>
-                    </span>
-                ))}
-            </CategoryWrapper>
         </SearchForm>
-    )
-}
+    );
+};
 
-export default HeaderSearchBar
+export default HeaderSearchBar;
