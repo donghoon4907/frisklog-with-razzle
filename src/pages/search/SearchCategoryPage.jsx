@@ -29,10 +29,10 @@ const SearchCategoryPage = ({
 
     return (
         <div>
-            <Meta title={`Frisklog - ${content}`} />
+            <Meta title={`Frisklog - #${content}`} />
             <div>
                 <Subject>
-                    <span>"{content}" 검색결과</span>
+                    <span>#{content}</span>
                     <div>
                         <Select value={orderBy} onChange={handleChangeOrderBy}>
                             {searchOptions.sort.map(({ text, value, id }) => (

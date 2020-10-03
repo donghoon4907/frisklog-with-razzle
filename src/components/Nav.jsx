@@ -42,6 +42,10 @@ const Top = styled.div`
     justify-content: ${(props) =>
         props.collapse === "expand" ? "space-between" : "center"};
     align-items: center;
+
+    & svg {
+        fill: ${(props) => props.theme.blueColor};
+    }
 `;
 
 /**

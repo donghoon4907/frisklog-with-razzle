@@ -337,3 +337,19 @@ export const Notice = ({ style }) => (
         height={size}
     />
 );
+
+/**
+ * Logout icon component
+ *
+ * @Img
+ * @param props.style style
+ */
+export const Logout = ({ style }) => (
+    <img
+        src={require("./img/logout.svg")}
+        alt="logout icon"
+        style={style}
+        width={size}
+        height={size}
+    />
+);

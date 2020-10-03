@@ -1,8 +1,9 @@
 import React, { useCallback } from "react";
-import { Profile } from "../assets/icon";
-import { useDispatch } from "../context";
+import { Profile, Logout } from "../assets/icon";
+import { useDispatch, useSelector } from "../context";
 import { SHOW_LOGIN_MODAL, SET_ME } from "../context/action";
 import { TOKEN_KEY, getStorage, deleteStorage } from "../lib/state";
+import Avatar from "./Avatar";
 
 /**
  * 내 정보 아이콘 컴포넌트
@@ -15,6 +16,10 @@ const ProfileBtn = () => {
      * 로컬 상태 변경 모듈 활성화
      */
     const dispatch = useDispatch();
+    /**
+     * 로컬 상태 감시 모듈 활성화
+     */
+    const { id, avatar } = useSelector();
     /**
      * 클릭 핸들러
      */
@@ -53,9 +58,30 @@ const ProfileBtn = () => {
     }, []);
 
     return (
-        <button type="button" onClick={handleClick} aria-haspopup="true">
-            <Profile />
-        </button>
+        <div>
+            {id ? (
+                <div className="d-flex justify-content-start">
+                    <Avatar src={avatar.url} size="30" userId={id} />
+                    <button
+                        type="button"
+                        onClick={handleClick}
+                        className="ml-2"
+                    >
+                        <Logout />
+                        <span className="a11y-hidden">로그아웃 하기</span>
+                    </button>
+                </div>
+            ) : (
+                <button
+                    type="button"
+                    onClick={handleClick}
+                    aria-haspopup="true"
+                >
+                    <Profile />
+                    <span className="a11y-hidden">로그인 하기</span>
+                </button>
+            )}
+        </div>
     );
 };
 

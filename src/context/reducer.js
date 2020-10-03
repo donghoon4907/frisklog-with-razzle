@@ -99,10 +99,10 @@ export default function reducer(state, action) {
                 ...state,
                 isCollapseNav: "contract"
             };
-        case "SET_COUNT_CARD":
+        case "SET_IS_MOBILE":
             return {
                 ...state,
-                cardCountInRow: action.payload
+                isMobile: action.payload
             };
         default:
             return { ...state };

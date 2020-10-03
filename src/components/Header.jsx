@@ -37,9 +37,8 @@ const Column = styled.div`
     align-items: center;
     height: 100%;
 
-    & > button {
+    & > * {
         margin-left: 10px;
-        cursor: pointer;
     }
 `;
 

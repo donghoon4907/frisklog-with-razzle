@@ -17,7 +17,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   hr {
-    border-top-color: #efeff5 !important;
     width: 100%;
   }
 
@@ -28,6 +27,10 @@ const GlobalStyle = createGlobalStyle`
     width: auto;
     overflow: visible;
     background: transparent;
+  }
+
+  button:focus {
+    outline: 0 !important;
   }
 
   .a11y-hidden {

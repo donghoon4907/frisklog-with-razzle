@@ -16,6 +16,7 @@ const Container = styled(Link)`
     font-size: 14px;
     border: 1px solid ${(props) => props.theme.blueColor};
     text-decoration: none !important;
+    position: relative;
 
     &:hover {
         opacity: 0.8;

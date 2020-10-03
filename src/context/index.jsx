@@ -23,7 +23,7 @@ const DispatchContext = createContext(null);
  * @property activeNotice       - 선택한 공지사항 정보
  * @property searchPostOption   - 검색 옵션
  * @property isCollapseNav      - 네비게이션 확장상태 (expand, contract)
- * @property cardCountInRow     - 카드형 행당 렌더링할 수 설정
+ * @property isMobile          - 모바일 환경 여부
  */
 const initialState = {
     id: null,
@@ -37,7 +37,7 @@ const initialState = {
     isShowFilterBar: false,
     isShowLoginModal: false,
     isCollapseNav: "expand",
-    cardCountInRow: 0,
+    isMobile: false,
     activePost: {
         id: "",
         title: "",

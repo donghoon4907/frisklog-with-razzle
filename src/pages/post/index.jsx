@@ -7,7 +7,8 @@ import { DELETE_POST, LIKE_POST } from "../../graphql/mutation/post";
 import { useDispatch, useSelector } from "../../context";
 import { SHOW_LOGIN_MODAL } from "../../context/action";
 import Avatar from "../../components/Avatar";
-import { HeartEmpty, HeartFull, Trash, Modify } from "../../assets/icon";
+import BtnLink from "../../components/BtnLink";
+import { HeartEmpty, HeartFull } from "../../assets/icon";
 import { TOKEN_KEY, getStorage } from "../../lib/state";
 import CommentList from "../../components/CommentList";
 import Loader from "../../components/Loader";
@@ -17,47 +18,27 @@ import { timeForToday } from "../../lib/date";
 import Viewer from "../../components/Viewer";
 
 const InfoWrapper = styled.div`
-    margin-bottom: 50px;
+    margin-bottom: 1rem;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+`;
 
+const Column = styled.div`
+    display: flex;
+    flex-direction: row;
     & > * {
         margin-right: 10px;
     }
 `;
 
-const SubmitWrapper = styled.div`
-    ${(props) => props.theme.whiteBox};
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 5px;
-    top: 4rem;
-    right: 20px;
-    width: 3rem;
-    z-index: 2;
-    background: #efeff1;
-`;
-
 const IconWrapper = styled.div`
-    width: 40px;
-    height: 40px;
-    border: ${(props) => props.theme.boxBorder};
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    border-radius: 50%;
-    background: white;
-    cursor: pointer;
 
-    & + & {
-        margin-top: 5px;
-    }
-
-    &:hover {
-        background: rgba(0, 0, 0, 0.03);
+    & > * {
+        margin-right: 5px;
     }
 `;
 
@@ -106,6 +87,10 @@ const Post = ({
      */
     const [isLike, setIsLike] = useState(false);
     /**
+     * 좋아요 수 상태 관리 모듈 활성화
+     */
+    const [likeCount, setLikeCount] = useState(false);
+    /**
      * 좋아요 핸들러
      */
     const handleLike = useCallback(async () => {
@@ -116,9 +101,13 @@ const Post = ({
 
         if (token) {
             /**
-             * 좋아요 여부 상태 변경
+             * 좋아요 여부 상태 업데이트
              */
             setIsLike(!isLike);
+            /**
+             * 좋아요 수 상태 업데이트
+             */
+            setLikeCount(isLike ? likeCount - 1 : likeCount + 1);
 
             try {
                 await like({
@@ -136,7 +125,7 @@ const Post = ({
                 type: SHOW_LOGIN_MODAL
             });
         }
-    }, [isLike]);
+    }, [isLike, likeCount]);
     /**
      * 게시물 삭제 핸들러
      */
@@ -192,9 +181,13 @@ const Post = ({
              */
             const isLikePost = likes.some((like) => like.user.id === userId);
             /**
-             * 스크롤 이벤트 바인딩
+             * 좋아요 여부 상태 업데이트
              */
             setIsLike(isLikePost);
+            /**
+             * 좋아요 수 상태 업데이트
+             */
+            setLikeCount(likes.length);
         }
     }, [data && data.post, userId]);
 
@@ -202,7 +195,15 @@ const Post = ({
         return <Loader />;
     }
 
-    const { title, description, user, createdAt, content } = data.post;
+    const {
+        title,
+        description,
+        user,
+        createdAt,
+        content,
+        category,
+        viewCount
+    } = data.post;
     /**
      * 내가 작성했는지 여부
      */
@@ -214,29 +215,60 @@ const Post = ({
             <Meta title={`Frisklog - ${title}`} description={description} />
             <Subject>{title}</Subject>
             <InfoWrapper>
-                <Avatar src={user.avatar.url} size="30" userId={user.id} />
-                <span>{user.nickname}</span>
-                <span>·</span>
-                <span>{timeForToday(createdAt)}</span>
+                <Column>
+                    <Avatar src={user.avatar.url} size="30" userId={user.id} />
+                    <span>{user.nickname}</span>
+                    <span>·</span>
+                    <span>{timeForToday(createdAt)}</span>
+                </Column>
             </InfoWrapper>
-            <SubmitWrapper>
-                <IconWrapper onClick={handleLike}>
-                    <button type="button" aria-pressed={isLike ? true : false}>
-                        {isLike ? <HeartFull /> : <HeartEmpty />}
-                    </button>
-                </IconWrapper>
+            <InfoWrapper>
+                <Column>
+                    <IconWrapper>
+                        <BtnLink to={`/category/${category}`}>
+                            {category}
+                        </BtnLink>
+                    </IconWrapper>
+                    <IconWrapper>
+                        <button
+                            type="button"
+                            aria-pressed={isLike ? true : false}
+                            onClick={handleLike}
+                        >
+                            {isLike ? (
+                                <HeartFull style={{ width: 32, height: 32 }} />
+                            ) : (
+                                <HeartEmpty style={{ width: 32, height: 32 }} />
+                            )}
+                            <span className="a11y-hidden">
+                                {isLike ? "좋아요 취소하기" : "좋아요 하기"}
+                            </span>
+                        </button>
+                        <span>{likeCount}</span>
+                    </IconWrapper>
+                </Column>
+
                 {isMyPost && (
-                    <>
-                        <IconWrapper onClick={handleUpdate}>
-                            <Modify />
-                        </IconWrapper>
-                        <IconWrapper onClick={handleDelete}>
-                            <Trash />
-                        </IconWrapper>
-                    </>
+                    <div>
+                        <button
+                            type="button"
+                            className="btn btn-info mr-1"
+                            onClick={handleUpdate}
+                        >
+                            수정
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-danger m"
+                            onClick={handleDelete}
+                        >
+                            삭제
+                        </button>
+                    </div>
                 )}
-            </SubmitWrapper>
+            </InfoWrapper>
             <Viewer initialValue={content} />
+            <hr />
             <CommentList />
         </div>
     );

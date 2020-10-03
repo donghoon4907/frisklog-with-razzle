@@ -8,7 +8,7 @@ import Nav from "./components/Nav";
 import AuthModal from "./components/modal/Auth";
 import SetNoticeModal from "./components/modal/SetNoticeContainer";
 import { useDispatch, useSelector } from "./context";
-import { CONTRACT_NAVIGATION, SET_ME, SET_COUNT_CARD } from "./context/action";
+import { CONTRACT_NAVIGATION, SET_ME, SET_IS_MOBILE } from "./context/action";
 import { ME } from "./graphql/query/user";
 import { COLLAPSE_KEY, setStorage } from "./lib/state";
 
@@ -117,6 +117,20 @@ const App = () => {
                 });
                 setStorage(COLLAPSE_KEY, "contract");
             }
+            /**
+             * 모바일 여부 설정
+             */
+            if (innerWidth <= 576) {
+                dispatch({
+                    type: SET_IS_MOBILE,
+                    payload: true
+                });
+            } else {
+                dispatch({
+                    type: SET_IS_MOBILE,
+                    payload: false
+                });
+            }
         },
         [isCollapseNav]
     );
@@ -128,6 +142,17 @@ const App = () => {
          * 리사이징 이벤트 바인딩
          */
         window.addEventListener("resize", handleResize);
+
+        const { innerWidth } = window;
+        /**
+         * 모바일 여부 설정
+         */
+        if (innerWidth <= 576) {
+            dispatch({
+                type: SET_IS_MOBILE,
+                payload: true
+            });
+        }
         /**
          * 리사이징 이벤트 언바인딩
          */

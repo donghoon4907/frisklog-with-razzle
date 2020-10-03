@@ -119,21 +119,19 @@ const CommentList = () => {
      * 스크롤 이벤트 핸들러
      */
     const handleFetchMore = () => {
-        /**
-         * 요청 중인 경우
-         */
-        if (loading) {
-            return;
-        }
-
-        const {
-            scrollHeight,
-            clientHeight,
-            scrollTop
-        } = document.documentElement;
-
         if (data && data.comments) {
+            /**
+             * 요청 중인 경우
+             */
+            if (loading) {
+                return;
+            }
+            const $main = document.querySelector("#main");
+
+            const { scrollHeight, clientHeight, scrollTop } = $main;
+
             const { comments } = data;
+
             if (scrollTop + clientHeight === scrollHeight) {
                 if (
                     comments.data.length > 0 &&
@@ -173,19 +171,20 @@ const CommentList = () => {
      * 라이프 사이클 모듈 활성화
      */
     useEffect(() => {
+        const $main = document.querySelector("#main");
         /**
          * 스크롤 이벤트 바인딩
          */
-        window.addEventListener("scroll", handleFetchMore);
+        $main.addEventListener("scroll", handleFetchMore);
         /**
          * 스크롤 이벤트 언바인딩
          */
-        return () => window.removeEventListener("scroll", handleFetchMore);
-    }, []);
+        return () => $main.removeEventListener("scroll", handleFetchMore);
+    }, [data && data.comments, loading]);
 
     return (
         <CommentContainer onSubmit={handleSubmit}>
-            {createLoading && <Loader />}
+            {(loading || createLoading) && <Loader />}
             <FormTextArea
                 placeholder="댓글을 입력하세요."
                 name="comment"

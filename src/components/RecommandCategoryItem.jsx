@@ -21,7 +21,7 @@ const BtnWrapper = styled.div`
     width: 100%;
     height: 40px;
     position: relative;
-    margin-top: 10px;
+    margin-bottom: 10px;
     overflow: hidden;
 `;
 /**

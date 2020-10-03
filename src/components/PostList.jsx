@@ -4,13 +4,15 @@ import { GET_POSTS } from "../graphql/query/post";
 import Query from "./Query";
 import Scroll from "./Scroll";
 import PostListTypeItem from "./PostListTypeItem";
+import PostCardTypeItem from "./PostCardTypeItem";
 import NoData from "./NoData";
+import { useSelector } from "../context";
 
 const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
-    min-width: 100%;
-    overflow: hidden;
+    flex-direction: row;
+    flex: 0 1 auto;
 `;
 /**
  * * 페이지 게시물 렌더링 컴포넌트
@@ -33,6 +35,11 @@ const PostList = ({
     userId,
     children
 }) => {
+    /**
+     * 로컬 상태 감시 모듈 활성화
+     */
+    const { isMobile } = useSelector();
+
     return (
         <Query
             query={GET_POSTS}
@@ -52,13 +59,24 @@ const PostList = ({
                         <Container>
                             {posts.data.length > 0 ? (
                                 <>
-                                    {posts.data.map((post) => (
-                                        <PostListTypeItem
-                                            key={post.id}
-                                            renderType={renderType}
-                                            {...post}
-                                        />
-                                    ))}
+                                    {posts.data.map((post) => {
+                                        if (isMobile) {
+                                            return (
+                                                <PostCardTypeItem
+                                                    key={post.id}
+                                                    {...post}
+                                                />
+                                            );
+                                        } else {
+                                            return (
+                                                <PostListTypeItem
+                                                    key={post.id}
+                                                    renderType={renderType}
+                                                    {...post}
+                                                />
+                                            );
+                                        }
+                                    })}
                                     <Scroll
                                         loading={loading}
                                         onBottom={() => {

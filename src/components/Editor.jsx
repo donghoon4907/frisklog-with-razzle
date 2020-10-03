@@ -69,7 +69,7 @@ const PostEditor = (props) => {
                     {...props}
                     initialValue={initialValue || ""}
                     previewStyle={previewStyle || "vertical"}
-                    height={height || "30rem"}
+                    height={height || "35rem"}
                     initialEditType={initialEditType || "markdown"}
                     useCommandShortcut={useCommandShortcut || true}
                     ref={$editor}

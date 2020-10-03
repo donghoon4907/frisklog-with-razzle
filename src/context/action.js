@@ -72,7 +72,7 @@ export const SEARCH_POST = "SEARCH_POST";
  * 네비게이션 확장
  *
  * @action
- * @author frisk
+ * @author friskㅔ
  */
 export const EXPAND_NAVIGATION = "EXPAND_NAVIGATION";
 /**
@@ -83,9 +83,9 @@ export const EXPAND_NAVIGATION = "EXPAND_NAVIGATION";
  */
 export const CONTRACT_NAVIGATION = "CONTRACT_NAVIGATION";
 /**
- * 카드형 행당 렌더링할 수 설정
+ * 모바일 환경 여부 설정
  *
  * @action
  * @author frisk
  */
-export const SET_COUNT_CARD = "SET_COUNT_CARD";
+export const SET_IS_MOBILE = "SET_IS_MOBILE";

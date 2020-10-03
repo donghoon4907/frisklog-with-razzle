@@ -2,25 +2,30 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "./Avatar";
-import { HeartFull, Comment, View } from "../assets/icon";
 import { timeForToday } from "../lib/date";
+import BtnLink from "./BtnLink";
 
 const Container = styled.div`
-    ${(props) => props.theme.whiteBox};
-    flex: 1 0 auto;
-    width: 20rem;
-    margin: 0 0.5rem;
-    overflow: hidden;
-    box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
-    cursor: pointer;
+    padding: 0 1rem;
+    flex-basis: 33.3%;
+    max-width: 33.3%;
+    flex: 0 0 auto;
+    margin-bottom: 1rem;
+
+    ${(props) => props.theme.media.tablet} {
+        flex-basis: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
 `;
 
 const CardImpressWrapper = styled.div`
+    ${(props) => props.theme.whiteBox};
     height: 100%;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
 `;
 
 const CardSelector = styled.article`
-    margin: 0;
     display: flex;
     flex-direction: column;
 `;
@@ -29,6 +34,7 @@ const CardThumbnailWrapper = styled.div`
     position: relative;
     width: 100%;
     order: 1;
+    cursor: pointer;
 `;
 
 const CardThumbnail = styled.div`
@@ -50,10 +56,7 @@ const MetaWrapper = styled.div`
     flex-direction: column;
     width: 100%;
     padding: 5px;
-
-    & hr {
-        margin-bottom: 5px;
-    }
+    cursor: pointer;
 `;
 
 const TitleWrapper = styled.div`
@@ -71,8 +74,6 @@ const TitleWrapper = styled.div`
 `;
 
 const Description = styled.p`
-    word-break: break-word;
-    overflow-wrap: break-word;
     font-size: 0.875rem;
     line-height: 1.5;
     height: 3.9375rem;
@@ -80,14 +81,14 @@ const Description = styled.p`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    color: rgb(73, 80, 87);
 `;
 
 const CardFooter = styled.div`
+    order: 3;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 5px;
 `;
 
 const UserWrapper = styled.div`
@@ -143,49 +144,44 @@ const PostCardTypeItem = ({
     const history = useHistory();
 
     return (
-        <Container role="link" onClick={() => history.push(`/post/${id}`)}>
+        <Container>
             <CardImpressWrapper>
                 <CardSelector>
-                    <CardThumbnailWrapper>
-                        <CardThumbnail>
-                            <img src={thumbnail} alt="post thumbnail" />
-                        </CardThumbnail>
-                    </CardThumbnailWrapper>
+                    {thumbnail && (
+                        <CardThumbnailWrapper>
+                            <CardThumbnail
+                                onClick={() => history.push(`/post/${id}`)}
+                            >
+                                <img src={thumbnail} alt="post thumbnail" />
+                            </CardThumbnail>
+                        </CardThumbnailWrapper>
+                    )}
+
                     <MetaWrapper>
-                        <TitleWrapper>
-                            <h3>{title}</h3>
-                        </TitleWrapper>
-                        <Description>{description}</Description>
-                        <hr />
-                        <CardFooter>
-                            <UserWrapper>
-                                <Avatar
-                                    src={user.avatar.url}
-                                    size="30"
-                                    userId={user.id}
-                                />
-
-                                <span>{user.nickname}</span>
-                                {/* <span>·</span>
-                                <span>{timeForToday(createdAt)}</span> */}
-                            </UserWrapper>
-
-                            <MetaColumn>
-                                <div title="좋아요 수">
-                                    <HeartFull />
-                                    <span>{likeCount}</span>
-                                </div>
-                                <div title="댓글 수">
-                                    <Comment />
-                                    <span>{commentCount}</span>
-                                </div>
-                                <div title="조회 수">
-                                    <View />
-                                    <span>{viewCount}</span>
-                                </div>
-                            </MetaColumn>
-                        </CardFooter>
+                        <div onClick={() => history.push(`/post/${id}`)}>
+                            <TitleWrapper>
+                                <h3>{title}</h3>
+                            </TitleWrapper>
+                            <Description>{description}</Description>
+                        </div>
                     </MetaWrapper>
+                    <CardFooter>
+                        <UserWrapper>
+                            <Avatar
+                                src={user.avatar.url}
+                                size="30"
+                                userId={user.id}
+                            />
+
+                            <span>{user.nickname}</span>
+                        </UserWrapper>
+
+                        <MetaColumn>
+                            <BtnLink to={`/category/${category}`}>
+                                {category}
+                            </BtnLink>
+                        </MetaColumn>
+                    </CardFooter>
                 </CardSelector>
             </CardImpressWrapper>
         </Container>

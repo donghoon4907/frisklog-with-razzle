@@ -9,9 +9,7 @@ import PostList from "../../components/PostList";
 import Query from "../../components/Query";
 import searchOptions from "../../json/search_options.json";
 
-const Container = styled.div`
-    padding: 3rem;
-`;
+const Container = styled.div``;
 
 const InfoWrapper = styled.div`
     margin-bottom: 50px;
@@ -21,6 +19,10 @@ const InfoWrapper = styled.div`
 
     & > * {
         margin-right: 10px;
+    }
+
+    ${(props) => props.theme.media.phone} {
+        flex-direction: column;
     }
 `;
 
@@ -79,7 +81,6 @@ const User = ({
                                     </h3>
                                 </UserMetaWrapper>
                             </InfoWrapper>
-                            <hr />
                             <Subject>
                                 <span>게시물 목록</span>
                                 <div>
