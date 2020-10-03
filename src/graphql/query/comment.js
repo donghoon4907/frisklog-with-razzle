@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 /**
  * * 댓글 검색
@@ -43,4 +43,4 @@ export const GET_COMMENTS = gql`
             total
         }
     }
-`;
+`

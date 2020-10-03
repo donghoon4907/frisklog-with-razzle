@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 /**
  * * 게시물 추가
@@ -27,7 +27,7 @@ export const CREATE_POST = gql`
             thumbnail: $thumbnail
         )
     }
-`;
+`
 
 /**
  * * 게시물 수정
@@ -59,7 +59,7 @@ export const UPDATE_POST = gql`
             thumbnail: $thumbnail
         )
     }
-`;
+`
 
 /**
  * * 게시물 삭제
@@ -72,7 +72,7 @@ export const DELETE_POST = gql`
     mutation deletePost($id: String!) {
         deletePost(id: $id)
     }
-`;
+`
 
 /**
  * * 게시물 좋아요 / 좋아요 취소
@@ -85,4 +85,4 @@ export const LIKE_POST = gql`
     mutation likePost($id: String!) {
         likePost(id: $id)
     }
-`;
+`

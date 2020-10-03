@@ -12,5 +12,7 @@ build
 # Optional eslint cache
 .eslintcache
 
-# vercel
-vercel.json
+# deploy
+.gcloudignore
+app.yaml
+DockerFile

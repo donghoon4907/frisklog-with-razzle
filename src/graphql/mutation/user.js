@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 /**
  * * 로그인
@@ -20,7 +20,7 @@ export const SIGN_IN = gql`
             isMaster
         }
     }
-`;
+`
 
 /**
  * * 회원가입
@@ -35,4 +35,4 @@ export const SIGN_UP = gql`
     mutation signUp($email: String!, $nickname: String!, $file: String!) {
         createUser(email: $email, nickname: $nickname, file: $file)
     }
-`;
+`

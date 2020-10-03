@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 /**
  * * 사용자 검색
@@ -24,7 +24,7 @@ export const GET_USERS = gql`
             }
         }
     }
-`;
+`
 
 /**
  * * 사용자 상세 조회
@@ -47,7 +47,7 @@ export const GET_USER = gql`
             }
         }
     }
-`;
+`
 
 /**
  * * 내 정보
@@ -67,4 +67,4 @@ export const ME = gql`
             isMaster
         }
     }
-`;
+`

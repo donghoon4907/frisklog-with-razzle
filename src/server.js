@@ -1,40 +1,40 @@
-import path from "path";
-import express from "express";
-import { StaticRouter } from "react-router-dom";
-import React from "react";
-import { renderToString } from "react-dom/server";
-import { ServerStyleSheet, ThemeProvider } from "styled-components";
-import { ApolloProvider } from "@apollo/client";
-import { getDataFromTree } from "@apollo/client/react/ssr";
-import { Helmet } from "react-helmet";
-import cookieParser from "cookie-parser";
-import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
-import { ContextProvider } from "./context";
-import GlobalStyle from "./theme/globalStyle";
-import theme from "./theme";
-import { initializeApollo } from "./lib/apollo";
-import App from "./App";
+import path from 'path'
+import express from 'express'
+import { StaticRouter } from 'react-router-dom'
+import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { ServerStyleSheet, ThemeProvider } from 'styled-components'
+import { ApolloProvider } from '@apollo/client'
+import { getDataFromTree } from '@apollo/client/react/ssr'
+import { Helmet } from 'react-helmet'
+import cookieParser from 'cookie-parser'
+import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server'
+import { ContextProvider } from './context'
+import GlobalStyle from './theme/globalStyle'
+import theme from './theme'
+import { initializeApollo } from './lib/apollo'
+import App from './App'
 
-//const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+// const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 /** init express */
-const server = express();
+const server = express()
 /** init cookie parser */
-server.use(cookieParser());
+server.use(cookieParser())
 
 server
-    .disable("x-powered-by")
+    .disable('x-powered-by')
     .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-    .get("/*", async (req, res) => {
-        const location = req.url;
+    .get('/*', async (req, res) => {
+        const location = req.url
 
         const extractor = new ChunkExtractor({
-            statsFile: path.resolve("build/loadable-stats.json"),
-            entrypoints: ["client"]
-        });
+            statsFile: path.resolve('build/loadable-stats.json'),
+            entrypoints: ['client']
+        })
         /** Init apollo client */
-        const client = initializeApollo();
+        const client = initializeApollo()
         /** Create the server side style sheet */
-        const sheet = new ServerStyleSheet();
+        const sheet = new ServerStyleSheet()
 
         const Root = () => (
             <ChunkExtractorManager extractor={extractor}>
@@ -49,21 +49,21 @@ server
                     </ThemeProvider>
                 </ApolloProvider>
             </ChunkExtractorManager>
-        );
+        )
 
         try {
             /** get query in pages */
-            await getDataFromTree(<Root />);
+            await getDataFromTree(<Root />)
         } catch (e) {
-            console.log(e);
+            console.log(e)
         }
         /** Get apollo cache */
-        const initialApolloState = client.extract();
+        const initialApolloState = client.extract()
         /** When the app is rendered collect the styles that are used inside it */
-        const markup = renderToString(sheet.collectStyles(<Root />));
+        const markup = renderToString(sheet.collectStyles(<Root />))
         /** Generate all the style tags so they can be rendered into the page */
-        const styleTags = sheet.getStyleTags();
-        const helmet = Helmet.renderStatic();
+        const styleTags = sheet.getStyleTags()
+        const helmet = Helmet.renderStatic()
 
         res.status(200).send(`
                 <!DOCTYPE html>
@@ -82,17 +82,27 @@ server
                         <!-- Render the style tags gathered from the components into the DOM -->
                         ${styleTags}
                         ${extractor.getScriptTags()}
+
+                        <!-- Global site tag (gtag.js) - Google Analytics -->
+                        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-178659482-1"></script>
+                        <script>
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+
+                        gtag('config', 'UA-178659482-1');
+                        </script>
                     </head>
                     <body ${helmet.bodyAttributes.toString()}>
                         <div id="root">${markup}</div>
                         <script>
                             window.__APOLLO_STATE__ = ${JSON.stringify(
                                 initialApolloState
-                            ).replace(/</g, "\\u003c")};
+                            ).replace(/</g, '\\u003c')};
                         </script>
                     </body>
                 </html>
-            `);
-    });
+            `)
+    })
 
-export default server;
+export default server

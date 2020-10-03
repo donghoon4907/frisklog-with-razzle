@@ -1,31 +1,31 @@
-"use strict";
+'use strict'
 
-const path = require("path");
-const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
-const LoadableBabelPlugin = require("@loadable/babel-plugin");
-const babelPresetRazzle = require("razzle/babel");
+const path = require('path')
+const LoadableWebpackPlugin = require('@loadable/webpack-plugin')
+const LoadableBabelPlugin = require('@loadable/babel-plugin')
+const babelPresetRazzle = require('razzle/babel')
 
 module.exports = {
     modify: (config, { dev, target }) => {
-        const isDev = dev === true;
-        const isWeb = target === "web";
+        const isDev = dev === true
+        const isWeb = target === 'web'
 
-        const appConfig = Object.assign({}, config);
+        const appConfig = Object.assign({}, config)
 
         // Run client only
         if (isWeb) {
-            const filename = path.resolve(__dirname, "build");
+            const filename = path.resolve(__dirname, 'build')
 
             appConfig.plugins.push(
                 new LoadableWebpackPlugin({
                     outputAsset: false,
                     writeToDisk: { filename }
                 })
-            );
+            )
 
             appConfig.output.filename = isDev
-                ? "static/js/[name].js"
-                : "static/js/[name].[chunkhash:8].js";
+                ? 'static/js/[name].js'
+                : 'static/js/[name].[chunkhash:8].js'
 
             appConfig.optimization = Object.assign({}, appConfig.optimization, {
                 runtimeChunk: true,
@@ -33,19 +33,19 @@ module.exports = {
                     cacheGroups: {
                         commons: {
                             test: /[\\/]node_modules[\\/]/,
-                            name: "vendors"
+                            name: 'vendors'
                         }
                     },
-                    chunks: "all",
+                    chunks: 'all',
                     name: isDev
                 }
-            });
+            })
         }
-        return appConfig;
+        return appConfig
     },
     modifyBabelOptions: () => ({
         babelrc: false,
         presets: [babelPresetRazzle],
         plugins: [LoadableBabelPlugin]
     })
-};
+}

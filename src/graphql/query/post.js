@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 /**
  * * 게시물 검색
@@ -60,7 +60,7 @@ export const GET_POSTS = gql`
             total
         }
     }
-`;
+`
 
 /**
  * * 게시물 상세 로드
@@ -96,4 +96,4 @@ export const GET_POST = gql`
             category
         }
     }
-`;
+`

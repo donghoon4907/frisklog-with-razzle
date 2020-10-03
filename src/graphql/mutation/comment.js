@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 /**
  * * 댓글 추가
@@ -12,7 +12,7 @@ export const CREATE_COMMENT = gql`
     mutation createComment($postId: String!, $content: String!) {
         createComment(postId: $postId, content: $content)
     }
-`;
+`
 
 /**
  * * 댓글 수정
@@ -26,7 +26,7 @@ export const UPDATE_COMMENT = gql`
     mutation updateComment($id: String!, $content: String!) {
         updateComment(id: $id, content: $content)
     }
-`;
+`
 
 /**
  * * 댓글 삭제
@@ -39,4 +39,4 @@ export const DELETE_COMMENT = gql`
     mutation deleteComment($id: String!) {
         deleteComment(id: $id)
     }
-`;
+`

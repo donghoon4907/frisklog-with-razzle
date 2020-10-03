@@ -2,7 +2,6 @@
     "name": "frisklog",
     "version": "1.0.0",
     "license": "MIT",
-    "homepage": "http://donghoon4907.github.io/frisklog-with-razzle",
     "scripts": {
         "dev": "razzle start",
         "build": "razzle build",
@@ -11,8 +10,7 @@
         "precommit": "lint-staged",
         "format": "prettier --write '**/*.{js,jsx,css,md}'",
         "lint": "eslint . --cache --fix",
-        "predeploy": "yarn build",
-        "deploy": "gh-pages -d build"
+        "deploy": "gcloud app deploy"
     },
     "dependencies": {
         "@apollo/client": "^3.2.1",
@@ -37,11 +35,13 @@
         "react-loader-spinner": "^3.1.14",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",
-        "styled-components": "^5.2.0"
+        "styled-components": "^5.2.0",
+        "styled-normalize": "^8.0.7"
     },
     "devDependencies": {
         "@loadable/babel-plugin": "^5.13.2",
         "@loadable/webpack-plugin": "^5.13.0",
+        "babel-eslint": "^10.1.0",
         "eslint": "^7.10.0",
         "eslint-config-standard": "^14.1.1",
         "eslint-plugin-import": "^2.22.1",
@@ -50,11 +50,9 @@
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-react": "^7.21.2",
         "eslint-plugin-standard": "^4.0.1",
-        "gh-pages": "^3.1.0",
         "lint-staged": "^10.4.0",
         "prettier": "^2.1.2",
-        "razzle": "canary",
-        "styled-normalize": "^8.0.7"
+        "razzle": "canary"
     },
     "lint-staged": {
         "*.{js,jsx,css,md}": [

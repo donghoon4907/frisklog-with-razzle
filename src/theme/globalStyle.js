@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import normalize from "styled-normalize";
+import { createGlobalStyle } from 'styled-components'
+import normalize from 'styled-normalize'
 
 const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -70,6 +70,6 @@ const GlobalStyle = createGlobalStyle`
   .tui-editor-contents img {
     width: 100%;
   }
-`;
+`
 
-export default GlobalStyle;
+export default GlobalStyle
