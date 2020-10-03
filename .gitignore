@@ -11,3 +11,6 @@ build
 
 # Optional eslint cache
 .eslintcache
+
+# vercel
+vercel.json
