@@ -7,7 +7,7 @@ const Container = styled(Link)`
     width: ${(props) => props.size}px;
     height: ${(props) => props.size}px;
     border: ${(props) => props.theme.boxBorder};
-    border-radius: 10px;
+    border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
     position: relative;

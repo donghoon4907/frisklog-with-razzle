@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
   ${normalize}
 
   body {
-    background: rgba(0,0,0,0.03) !important;
+    background: #f7f7f8 !important;
   }
   
   #root, body, html {

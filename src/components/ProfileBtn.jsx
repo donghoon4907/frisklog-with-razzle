@@ -66,6 +66,7 @@ const ProfileBtn = () => {
                         type="button"
                         onClick={handleClick}
                         className="ml-2"
+                        aria-label="Logout"
                     >
                         <Logout />
                         <span className="a11y-hidden">로그아웃 하기</span>
@@ -76,6 +77,7 @@ const ProfileBtn = () => {
                     type="button"
                     onClick={handleClick}
                     aria-haspopup="true"
+                    aria-label="Login"
                 >
                     <Profile />
                     <span className="a11y-hidden">로그인 하기</span>

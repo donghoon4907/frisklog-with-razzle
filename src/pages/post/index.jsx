@@ -233,6 +233,7 @@ const Post = ({
                         <button
                             type="button"
                             aria-pressed={isLike ? true : false}
+                            aria-label="Like"
                             onClick={handleLike}
                         >
                             {isLike ? (
@@ -254,6 +255,7 @@ const Post = ({
                             type="button"
                             className="btn btn-info mr-1"
                             onClick={handleUpdate}
+                            aria-label="Update"
                         >
                             수정
                         </button>
@@ -261,6 +263,7 @@ const Post = ({
                             type="button"
                             className="btn btn-danger m"
                             onClick={handleDelete}
+                            aria-label="Delete"
                         >
                             삭제
                         </button>

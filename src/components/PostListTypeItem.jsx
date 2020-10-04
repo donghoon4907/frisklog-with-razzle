@@ -118,8 +118,7 @@ const MetaColumn = styled.div`
     align-items: center;
 
     & span {
-        margin-right: 10px;
-        margin-left: 5px;
+        margin-right: 5px;
     }
 `;
 
@@ -202,10 +201,6 @@ const PostListTypeItem = ({
                     <div title="댓글 수">
                         <Comment />
                         <span>{commentCount}</span>
-                    </div>
-                    <div title="조회 수">
-                        <View />
-                        <span>{viewCount}</span>
                     </div>
                 </MetaColumn>
             </MetaFooter>

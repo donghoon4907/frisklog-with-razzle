@@ -77,7 +77,7 @@ const SetNoticePresenter = ({
                 {(action.code === "add" || action.code === "modify") && (
                     <FormInput
                         placeholder="제목을 입력하세요."
-                        name="title"
+                        id="title"
                         required
                         autoComplete="off"
                         {...title}
@@ -86,7 +86,7 @@ const SetNoticePresenter = ({
                 )}
                 <FormTextArea
                     placeholder="내용을 입력하세요."
-                    name="description"
+                    id="description"
                     required
                     autoComplete="off"
                     height={300}

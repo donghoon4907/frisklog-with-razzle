@@ -29,7 +29,7 @@ const Container = styled.button`
  * @param props.type    버튼 타입
  */
 const Button = ({ onClick, type = "button", children }) => (
-    <Container onClick={onClick} type={type}>
+    <Container onClick={onClick} type={type} aria-label="Handler">
         {children}
     </Container>
 );

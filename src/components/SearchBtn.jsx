@@ -36,6 +36,7 @@ const SearchBtn = () => {
             type="button"
             title="검색"
             aria-pressed={isShowSearchBar}
+            aria-label="Open"
         >
             <Search />
             <span className="a11y-hidden">

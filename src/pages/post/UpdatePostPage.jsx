@@ -7,6 +7,7 @@ import { useDispatch } from "../../context";
 import { SHOW_LOGIN_MODAL } from "../../context/action";
 import Editor from "../../components/Editor";
 import Button from "../../components/Button";
+import Meta from "../../components/Meta";
 import { useInput } from "../../hooks";
 import Loader from "../../components/Loader";
 import { TOKEN_KEY, getStorage } from "../../lib/state";
@@ -63,7 +64,7 @@ const UpdatePostPage = ({ match }) => {
     /**
      * 내용 상태 관리 모듈 활성화
      */
-    const [content, setContent] = useState("");
+    const [_content, setContent] = useState("");
     /**
      * 등록 핸들러
      */
@@ -90,10 +91,20 @@ const UpdatePostPage = ({ match }) => {
                 return alert("카테고리는 10자 미만으로 입력하세요.");
             }
             /**
-             * 썸네일, 설명
+             * 설명
+             * @type {string}
+             */
+            const description = _content.description;
+            /**
+             * 내용
+             * @type {string}
+             */
+            const content = _content.markdown;
+            /**
+             * 썸네일
              * @type {string|undefined}
              */
-            let thumbnail, description;
+            let thumbnail;
             /**
              * 썸네일 유무 체크
              */
@@ -106,16 +117,7 @@ const UpdatePostPage = ({ match }) => {
                     foundThumbnails[0].indexOf("(") + 1,
                     foundThumbnails[0].lastIndexOf(")")
                 );
-                description = content.replace(reg, "");
-            } else {
-                description = content;
             }
-            /**
-             * 특수문자 제거 정규식
-             */
-            const reg2 = /[\{\}\[\]\/;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-
-            description = description.replace(reg2, "");
 
             const tf = confirm("입력한 내용으로 게시물을 수정하시겠어요?");
 
@@ -158,7 +160,7 @@ const UpdatePostPage = ({ match }) => {
                 type: SHOW_LOGIN_MODAL
             });
         }
-    }, [updatePostLoading, title.value, category.value, content]);
+    }, [updatePostLoading, title.value, category.value, _content]);
 
     /**
      * 라이프 사이클 모듈 활성화
@@ -168,7 +170,6 @@ const UpdatePostPage = ({ match }) => {
             const { post } = data;
             title.setValue(post.title);
             category.setValue(post.category);
-            setContent(post.content);
         }
     }, [data]);
 
@@ -181,11 +182,12 @@ const UpdatePostPage = ({ match }) => {
     return (
         <Container>
             {updatePostLoading && <Loader />}
+            <Meta title="게시물 수정" description="update post in frisklog" />
             <CategoryWrapper>
                 <FormInput
                     type="text"
                     placeholder="카테고리를 입력하세요"
-                    name="category"
+                    id="category"
                     autoComplete="off"
                     required
                     label="카테고리"
@@ -195,7 +197,7 @@ const UpdatePostPage = ({ match }) => {
             <FormInput
                 type="text"
                 placeholder="제목을 입력하세요"
-                name="title"
+                id="title"
                 autoComplete="off"
                 required
                 label="제목"

@@ -8,7 +8,7 @@ import RecommandUserList from "./RecommandUserList";
 import RecommandCategoryList from "./RecommandCategoryList";
 
 const Container = styled.nav`
-    background: #efeff1;
+    background: white;
     width: ${(props) => (props.collapse === "expand" ? 230 : 60)}px;
     height: 100%;
     display: flex;
@@ -16,6 +16,7 @@ const Container = styled.nav`
     padding: 8px;
     z-index: 10;
     flex-shrink: 0;
+    border-right: ${(props) => props.theme.boxBorder};
 
     ${(props) => props.theme.media.desktop} {
         display: none;
@@ -27,8 +28,7 @@ const Container = styled.nav`
         );
     }
 
-    & h6 {
-        margin-top: 10px;
+    & span {
         display: ${(props) => (props.collapse === "expand" ? "block" : "none")};
     }
 
@@ -97,12 +97,13 @@ const Nav = () => {
     return (
         <Container collapse={isCollapseNav} id="nav">
             <Top collapse={isCollapseNav}>
-                <h6>추천 블로그</h6>
+                <span>추천 블로그</span>
                 <button
                     type="button"
                     aria-pressed={isCollapseNav === "expand"}
                     aria-expanded={isCollapseNav === "expand"}
                     aria-controls="nav"
+                    aria-label="Collapse"
                     onClick={handleClickCollapse}
                 >
                     <Collapse />
@@ -115,7 +116,9 @@ const Nav = () => {
             </Top>
             <RecommandUserList />
             <hr />
-            <h6>추천 카테고리</h6>
+            <span style={{ marginTop: 50, marginBottom: 10 }}>
+                추천 카테고리
+            </span>
             <RecommandCategoryList />
         </Container>
     );

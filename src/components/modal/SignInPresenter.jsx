@@ -19,7 +19,7 @@ const SignInPresenter = ({ loading, email, onSubmit }) => (
             <FormInput
                 type="email"
                 placeholder="이메일을 입력하세요."
-                name="email"
+                id="email"
                 autoComplete="off"
                 required
                 label="이메일"

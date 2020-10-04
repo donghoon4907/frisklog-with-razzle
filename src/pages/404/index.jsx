@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Meta from "../../components/Meta";
 import BtnLink from "../../components/BtnLink";
 
 const Container = styled.div`
@@ -50,6 +51,10 @@ const ButtonWrapper = styled.div`
  */
 const ErrorPage = () => (
     <Container>
+        <Meta
+            title="페이지를 찾을 수 없습니다."
+            description="page is not found in frisklog"
+        />
         <Wrapper>
             <Title>페이지를 찾을 수 없습니다.</Title>
             <SubTitle>404, Not Found</SubTitle>

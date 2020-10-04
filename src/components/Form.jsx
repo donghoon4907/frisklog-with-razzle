@@ -67,7 +67,7 @@ export const Select = styled.select`
 
 export const FormInput = ({ label, children, ...props }) => (
     <InputWrapper>
-        <Label htmlFor={props.name} val={props.value}>
+        <Label htmlFor={props.id} val={props.value}>
             {label}
         </Label>
         <Input {...props} />
@@ -77,7 +77,7 @@ export const FormInput = ({ label, children, ...props }) => (
 
 export const FormTextArea = ({ label, children, ...props }) => (
     <InputWrapper>
-        <Label htmlFor={props.name} val={props.value}>
+        <Label htmlFor={props.id} val={props.value}>
             {label}
         </Label>
         <TextArea {...props} />

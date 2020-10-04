@@ -8,6 +8,7 @@ import Editor from "../../components/Editor";
 import { FormInput } from "../../components/Form";
 import Button from "../../components/Button";
 import { useInput } from "../../hooks";
+import Meta from "../../components/Meta";
 import Loader from "../../components/Loader";
 import { TOKEN_KEY, getStorage } from "../../lib/state";
 
@@ -53,7 +54,7 @@ const CreatePostPage = () => {
     /**
      * 내용 상태 관리 모듈 활성화
      */
-    const [content, setContent] = useState("");
+    const [_content, setContent] = useState("");
     /**
      * 등록 핸들러
      */
@@ -79,10 +80,20 @@ const CreatePostPage = () => {
                     return alert("카테고리는 10자 미만으로 입력하세요.");
                 }
                 /**
-                 * 썸네일, 설명
+                 * 설명
+                 * @type {string}
+                 */
+                const description = _content.description;
+                /**
+                 * 내용
+                 * @type {string}
+                 */
+                const content = _content.markdown;
+                /**
+                 * 썸네일
                  * @type {string|undefined}
                  */
-                let thumbnail, description;
+                let thumbnail;
                 /**
                  * 썸네일 제거 정규식
                  */
@@ -95,16 +106,7 @@ const CreatePostPage = () => {
                         foundThumbnails[0].indexOf("(") + 1,
                         foundThumbnails[0].lastIndexOf(")")
                     );
-                    description = content.replace(reg, "");
-                } else {
-                    description = content;
                 }
-                /**
-                 * 특수문자 제거 정규식
-                 */
-                const reg2 = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-
-                description = description.replace(reg2, "");
 
                 const tf = confirm("입력한 내용으로 게시물을 등록하시겠어요?");
 
@@ -147,17 +149,18 @@ const CreatePostPage = () => {
                 });
             }
         },
-        [title.value, category.value, content]
+        [title.value, category.value, _content]
     );
 
     return (
         <Container onSubmit={handleSubmit}>
             {loading && <Loader />}
+            <Meta title="게시물 등록" description="create post in frisklog" />
             <CategoryWrapper>
                 <FormInput
                     type="text"
                     placeholder="카테고리를 입력하세요"
-                    name="category"
+                    id="category"
                     autoComplete="off"
                     required
                     {...category}
@@ -167,7 +170,7 @@ const CreatePostPage = () => {
             <FormInput
                 type="text"
                 placeholder="제목을 입력하세요"
-                name="title"
+                id="title"
                 autoComplete="off"
                 required
                 {...title}

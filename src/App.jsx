@@ -51,7 +51,7 @@ const Main = styled.main`
     display: flex;
     height: 100%;
     width: 100%;
-    padding: 2rem;
+    padding: 1rem;
     overflow: auto;
 
     ${(props) => props.theme.media.desktop} {

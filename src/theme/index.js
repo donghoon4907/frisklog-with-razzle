@@ -19,7 +19,7 @@ export default {
     successColor: '#3D8939',
     infoColor: '#358597',
     redColor: '#ED4956',
-    blueColor: '#4142DD',
+    blueColor: '#2E6BD8',
     darkBlueColor: '#003569',
     boxBorder: BOX_BORDER,
     borderRadius: BORDER_RADIUS,

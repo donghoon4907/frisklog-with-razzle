@@ -16,6 +16,24 @@ const PostWrapper = styled.div`
     ${(props) => props.theme.media.phone} {
         margin: 0;
     }
+
+    ${(props) => props.theme.media.custom(1500)} {
+        & > div:nth-child(5) {
+            display: none;
+        }
+    }
+
+    ${(props) => props.theme.media.custom(1200)} {
+        & > div:nth-child(4) {
+            display: none;
+        }
+    }
+
+    ${(props) => props.theme.media.desktop} {
+        & > div:nth-child(3) {
+            display: none;
+        }
+    }
 `;
 
 /**
@@ -32,7 +50,7 @@ const Feed = () => (
             <Query
                 query={GET_POSTS}
                 variables={{
-                    first: 6,
+                    first: 5,
                     orderBy: "viewCount_DESC",
                     notNullThumb: true
                 }}
@@ -50,7 +68,7 @@ const Feed = () => (
             <Query
                 query={GET_POSTS}
                 variables={{
-                    first: 6,
+                    first: 5,
                     orderBy: "likeCount_DESC",
                     notNullThumb: true
                 }}

@@ -17,7 +17,7 @@ const AvatarWrapper = styled.div`
     width: 50px;
 `;
 
-const Title = styled.h6`
+const Title = styled.div`
     width: 150px;
     font-weight: 500;
     font-size: 20px;

@@ -1,7 +1,6 @@
-import React, { FC, useState, useCallback, memo } from "react";
+import React, { useState, useCallback, memo } from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
-import { Dropdown } from "react-bootstrap";
 import { UPDATE_COMMENT, DELETE_COMMENT } from "../graphql/mutation/comment";
 import { useInput } from "../hooks";
 import { FormTextArea } from "./Form";
@@ -11,9 +10,9 @@ import { TOKEN_KEY, getStorage } from "../lib/state";
 import { useDispatch } from "../context";
 import { SHOW_LOGIN_MODAL } from "../context/action";
 import { useSelector } from "../context";
-import { More } from "../assets/icon";
 import Loader from "./Loader";
 import { timeForToday } from "../lib/date";
+import Dropdown from "./Dropdown";
 
 const CommentWrapper = styled.div`
     display: flex;
@@ -232,21 +231,25 @@ const CommentItem = ({ id, content, user, createdAt }) => {
                 <span>{timeForToday(createdAt)}</span>
                 {isMyComment && (
                     <OptionWrapper>
-                        <MoreWrapper>
-                            <Dropdown>
-                                <Dropdown.Toggle id="dropdown-custom-2" />
-                                {!disabled && <More />}
-                                <Dropdown.Menu>
-                                    <Dropdown.Item onClick={handleActive}>
-                                        수정
-                                    </Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item onClick={handleDelete}>
-                                        삭제
-                                    </Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </MoreWrapper>
+                        <Dropdown
+                            id={`dropdown_${id}`}
+                            disabled={disabled}
+                            list={[
+                                {
+                                    type: "item",
+                                    text: "수정",
+                                    handler: handleActive
+                                },
+                                {
+                                    type: "divider"
+                                },
+                                {
+                                    type: "item",
+                                    text: "삭제",
+                                    handler: handleDelete
+                                }
+                            ]}
+                        />
                     </OptionWrapper>
                 )}
             </InfoWrapper>

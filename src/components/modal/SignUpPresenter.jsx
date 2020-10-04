@@ -73,7 +73,7 @@ const SignUpPresenter = ({
                 <FormInput
                     type="email"
                     placeholder="이메일을 입력하세요."
-                    name="email"
+                    id="email"
                     autoComplete="off"
                     required
                     {...email}
@@ -82,7 +82,7 @@ const SignUpPresenter = ({
                 <FormInput
                     placeholder="닉네임을 입력하세요"
                     required
-                    name="nickname"
+                    id="nickname"
                     {...nickname}
                     autoComplete="off"
                     label="닉네임"

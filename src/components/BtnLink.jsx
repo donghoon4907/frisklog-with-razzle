@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled(Link)`
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     width: 100%;
     border: 0;
@@ -12,7 +14,7 @@ const Container = styled(Link)`
     font-weight: 600;
     background: ${(props) => props.theme.blueColor};
     text-align: center;
-    padding: 7px;
+    padding: 5px;
     font-size: 14px;
     border: 1px solid ${(props) => props.theme.blueColor};
     text-decoration: none !important;

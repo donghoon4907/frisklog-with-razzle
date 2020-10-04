@@ -118,6 +118,10 @@ const SignUpContainer = ({ setAction }) => {
                 return alert("요청 중입니다. 잠시만 기다려주세요.");
             }
 
+            if (nickname.value.length > 9) {
+                return alert("댓글은 10자 미만으로 입력 해주세요.");
+            }
+
             const tf = confirm("입력한 내용으로 회원가입 하시겠어요?");
 
             if (tf) {

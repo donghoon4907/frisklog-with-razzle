@@ -38,7 +38,8 @@ const PostEditor = (props) => {
         previewStyle,
         height,
         initialEditType,
-        useCommandShortcut
+        useCommandShortcut,
+        onChange
     } = props;
     /**
      * 업로드 요청을 위한 Axios 활성화
@@ -58,7 +59,10 @@ const PostEditor = (props) => {
          * 1. instance.getMarkdown(): markdown type
          * 2. instance.getHtml(): html type
          */
-        props.onChange(instance.getMarkdown());
+        onChange({
+            markdown: instance.getMarkdown(),
+            description: instance.preview.el.innerText
+        });
     }, [props]);
 
     return (

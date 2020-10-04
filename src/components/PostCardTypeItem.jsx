@@ -3,14 +3,31 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "./Avatar";
 import { timeForToday } from "../lib/date";
+import { HeartFull, Comment, View } from "../assets/icon";
 import BtnLink from "./BtnLink";
+import Dropdown from "./Dropdown";
 
 const Container = styled.div`
     padding: 0 1rem;
-    flex-basis: 33.3%;
-    max-width: 33.3%;
+    flex-basis: 20%;
+    max-width: 20%;
     flex: 0 0 auto;
     margin-bottom: 1rem;
+
+    ${(props) => props.theme.media.custom(1500)} {
+        flex-basis: 25%;
+        max-width: 25%;
+    }
+
+    ${(props) => props.theme.media.custom(1200)} {
+        flex-basis: 33.3%;
+        max-width: 33.3%;
+    }
+
+    ${(props) => props.theme.media.desktop} {
+        flex-basis: 50%;
+        max-width: 50%;
+    }
 
     ${(props) => props.theme.media.tablet} {
         flex-basis: 100%;
@@ -33,7 +50,7 @@ const CardSelector = styled.article`
 const CardThumbnailWrapper = styled.div`
     position: relative;
     width: 100%;
-    order: 1;
+    order: 2;
     cursor: pointer;
 `;
 
@@ -49,9 +66,8 @@ const CardThumbnail = styled.div`
     }
 `;
 
-const MetaWrapper = styled.div`
-    margin-top: 0.5rem;
-    order: 2;
+const CardBody = styled.div`
+    order: 3;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -66,25 +82,27 @@ const TitleWrapper = styled.div`
     white-space: nowrap;
     margin-bottom: 5px;
 
-    & > h3 {
+    & > div {
         display: table-cell;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-size: 20px;
+        font-weight: 500;
     }
 `;
 
 const Description = styled.p`
     font-size: 0.875rem;
     line-height: 1.5;
-    height: 3.9375rem;
+    height: 2.5rem;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 `;
 
-const CardFooter = styled.div`
-    order: 3;
+const CardHeader = styled.div`
+    order: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -92,21 +110,19 @@ const CardFooter = styled.div`
 `;
 
 const UserWrapper = styled.div`
-    flex: 1;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 `;
 
 const MetaColumn = styled.div`
     display: flex;
-    justfiy-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 
     & span {
-        margin-right: 10px;
-        margin-left: 5px;
+        margin-right: 5px;
     }
 `;
 
@@ -147,25 +163,7 @@ const PostCardTypeItem = ({
         <Container>
             <CardImpressWrapper>
                 <CardSelector>
-                    {thumbnail && (
-                        <CardThumbnailWrapper>
-                            <CardThumbnail
-                                onClick={() => history.push(`/post/${id}`)}
-                            >
-                                <img src={thumbnail} alt="post thumbnail" />
-                            </CardThumbnail>
-                        </CardThumbnailWrapper>
-                    )}
-
-                    <MetaWrapper>
-                        <div onClick={() => history.push(`/post/${id}`)}>
-                            <TitleWrapper>
-                                <h3>{title}</h3>
-                            </TitleWrapper>
-                            <Description>{description}</Description>
-                        </div>
-                    </MetaWrapper>
-                    <CardFooter>
+                    <CardHeader>
                         <UserWrapper>
                             <Avatar
                                 src={user.avatar.url}
@@ -175,13 +173,41 @@ const PostCardTypeItem = ({
 
                             <span>{user.nickname}</span>
                         </UserWrapper>
-
-                        <MetaColumn>
+                        <div>
                             <BtnLink to={`/category/${category}`}>
                                 {category}
                             </BtnLink>
+                        </div>
+                    </CardHeader>
+                    {thumbnail && (
+                        <CardThumbnailWrapper
+                            onClick={() => history.push(`/post/${id}`)}
+                        >
+                            <CardThumbnail>
+                                <img src={thumbnail} alt="post thumbnail" />
+                            </CardThumbnail>
+                        </CardThumbnailWrapper>
+                    )}
+
+                    <CardBody onClick={() => history.push(`/post/${id}`)}>
+                        <TitleWrapper>
+                            <div>{title}</div>
+                        </TitleWrapper>
+                        <Description>{description}</Description>
+                        <MetaColumn>
+                            <div>
+                                <span title="좋아요 수">
+                                    <HeartFull />
+                                    <span>{likeCount}</span>
+                                </span>
+                                <span title="댓글 수">
+                                    <Comment />
+                                    <span>{commentCount}</span>
+                                </span>
+                            </div>
+                            <div>{timeForToday(createdAt)}</div>
                         </MetaColumn>
-                    </CardFooter>
+                    </CardBody>
                 </CardSelector>
             </CardImpressWrapper>
         </Container>
