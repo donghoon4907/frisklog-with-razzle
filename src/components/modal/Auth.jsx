@@ -1,16 +1,9 @@
 import React, { useState, useCallback } from "react";
-import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import SignIn from "./SignInContainer";
 import SignUp from "./SignUpContainer";
-import { StateChanger } from "../Form";
 import { useDispatch } from "../../context";
 import { HIDE_LOGIN_MODAL } from "../../context/action";
-
-const Link = styled.span`
-    color: ${(props) => props.theme.blueColor};
-    cursor: pointer;
-`;
 
 /**
  * * 인증 팝업 컴포넌트
@@ -50,24 +43,30 @@ const Auth = () => {
                 ) : (
                     <SignIn />
                 )}
-                <StateChanger>
+                <div className="fr-form__changer">
                     {action === "login" && (
                         <div>
                             계정이 없다면&nbsp;
-                            <Link onClick={() => setAction("signup")}>
+                            <span
+                                className="fr-form__link"
+                                onClick={() => setAction("signup")}
+                            >
                                 회원가입
-                            </Link>
+                            </span>
                         </div>
                     )}
                     {action === "signup" && (
                         <div>
                             계정이 있다면&nbsp;
-                            <Link onClick={() => setAction("login")}>
+                            <span
+                                className="fr-form__link"
+                                onClick={() => setAction("login")}
+                            >
                                 로그인
-                            </Link>
+                            </span>
                         </div>
                     )}
-                </StateChanger>
+                </div>
             </Modal.Body>
         </Modal>
     );

@@ -1,26 +1,9 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
 import { useDispatch } from "../context";
 import { SHOW_NOTICE_MODAL } from "../context/action";
 import { GET_NOTICES } from "../graphql/query/notice";
 import { Notice } from "../assets/icon";
 import Query from "./Query";
-
-const Contianer = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-left: 10px !important;
-
-    & u {
-        margin-left: 5px;
-        cursor: pointer;
-    }
-
-    ${(props) => props.theme.media.phone} {
-        display: none;
-    }
-`;
 
 /**
  * 공지사항 컴포넌트
@@ -48,7 +31,7 @@ const HeaderNotice = () => {
     }, []);
 
     return (
-        <Contianer>
+        <div className="fr-header__notice">
             <Query
                 query={GET_NOTICES}
                 variables={{
@@ -72,7 +55,7 @@ const HeaderNotice = () => {
                     ))
                 }
             </Query>
-        </Contianer>
+        </div>
     );
 };
 

@@ -1,18 +1,5 @@
 import React from "react";
-import styled from "styled-components";
 import Spinner from "react-loader-spinner";
-
-export const Container = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-`;
 
 /**
  * 공통 로더 컴포넌트
@@ -21,7 +8,7 @@ export const Container = styled.div`
  * @author frisk
  */
 const Loader = () => (
-    <Container>
+    <div className="fr-loader">
         <Spinner
             type="ThreeDots"
             color="#4142DD"
@@ -29,7 +16,7 @@ const Loader = () => (
             width={80}
             visible={true}
         />
-    </Container>
+    </div>
 );
 
 export default Loader;

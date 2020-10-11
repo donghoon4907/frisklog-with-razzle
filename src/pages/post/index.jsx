@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_POST } from "../../graphql/query/post";
 import { DELETE_POST, LIKE_POST } from "../../graphql/mutation/post";
@@ -17,31 +16,6 @@ import Subject from "../../components/Subject";
 import { timeForToday } from "../../lib/date";
 import Viewer from "../../components/Viewer";
 
-const InfoWrapper = styled.div`
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const Column = styled.div`
-    display: flex;
-    flex-direction: row;
-    & > * {
-        margin-right: 10px;
-    }
-`;
-
-const IconWrapper = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    & > * {
-        margin-right: 5px;
-    }
-`;
-
 /**
  * 게시물 상세 화면 컴포넌트
  *
@@ -53,6 +27,7 @@ const Post = ({
         params: { id }
     }
 }) => {
+    const displayName = "fr-post";
     /**
      * history 객체 활성화
      */
@@ -210,28 +185,27 @@ const Post = ({
     const isMyPost = userId ? userId === user.id : false;
 
     return (
-        <div>
+        <div className={displayName}>
             {deleteLoading && <Loader />}
             <Meta title={`Frisklog - ${title}`} description={description} />
             <Subject>{title}</Subject>
-            <InfoWrapper>
-                <Column>
+            <div className={`${displayName}__info`}>
+                <div className={`${displayName}__column`}>
                     <Avatar src={user.avatar.url} size="30" userId={user.id} />
                     <span>{user.nickname}</span>
                     <span>·</span>
                     <span>{timeForToday(createdAt)}</span>
-                </Column>
-            </InfoWrapper>
-            <InfoWrapper>
-                <Column>
-                    <IconWrapper>
+                </div>
+            </div>
+            <div className={`${displayName}__info`}>
+                <div className={`${displayName}__column`}>
+                    <div className="d-flex justify-content-start align-items-center">
                         <BtnLink to={`/category/${category}`}>
                             {category}
                         </BtnLink>
-                    </IconWrapper>
-                    <IconWrapper>
+                    </div>
+                    <div className="d-flex justify-content-start align-items-center">
                         <button
-                            type="button"
                             aria-pressed={isLike ? true : false}
                             aria-label="Like"
                             onClick={handleLike}
@@ -246,13 +220,12 @@ const Post = ({
                             </span>
                         </button>
                         <span>{likeCount}</span>
-                    </IconWrapper>
-                </Column>
+                    </div>
+                </div>
 
                 {isMyPost && (
                     <div>
                         <button
-                            type="button"
                             className="btn btn-info mr-1"
                             onClick={handleUpdate}
                             aria-label="Update"
@@ -260,8 +233,7 @@ const Post = ({
                             수정
                         </button>
                         <button
-                            type="button"
-                            className="btn btn-danger m"
+                            className="btn btn-danger"
                             onClick={handleDelete}
                             aria-label="Delete"
                         >
@@ -269,7 +241,7 @@ const Post = ({
                         </button>
                     </div>
                 )}
-            </InfoWrapper>
+            </div>
             <Viewer initialValue={content} />
             <hr />
             <CommentList />

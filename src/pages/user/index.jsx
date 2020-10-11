@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import styled from "styled-components";
 import { GET_USER } from "../../graphql/query/user";
 import Meta from "../../components/Meta";
 import Avatar from "../../components/Avatar";
@@ -8,31 +7,6 @@ import { Select } from "../../components/Form";
 import PostList from "../../components/PostList";
 import Query from "../../components/Query";
 import searchOptions from "../../json/search_options.json";
-
-const Container = styled.div``;
-
-const InfoWrapper = styled.div`
-    margin-bottom: 50px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    & > * {
-        margin-right: 10px;
-    }
-
-    ${(props) => props.theme.media.phone} {
-        flex-direction: column;
-    }
-`;
-
-const UserMetaWrapper = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 10px;
-`;
 
 /**
  * 사용자 상세 화면 컴포넌트
@@ -44,6 +18,7 @@ const User = ({
         params: { id }
     }
 }) => {
+    const displayName = "fr-user";
     /**
      * 로컬 상태 변경 모듈 활성화
      */
@@ -56,61 +31,59 @@ const User = ({
     }, []);
 
     return (
-        <div>
-            <Query
-                query={GET_USER}
-                variables={{
-                    id
-                }}
-            >
-                {({ data: { user } }) => {
-                    const { avatar, nickname, postCount } = user;
-                    return (
-                        <Container>
-                            <Meta title={`Frisklog - ${nickname}`} />
-                            <InfoWrapper>
-                                <Avatar
-                                    src={avatar.url}
-                                    size="200"
-                                    userId={user.id}
-                                />
-                                <UserMetaWrapper>
-                                    <h1>{nickname}</h1>
-                                    <h3>
-                                        <em>{postCount} posts</em>
-                                    </h3>
-                                </UserMetaWrapper>
-                            </InfoWrapper>
-                            <Subject>
-                                <span>게시물 목록</span>
-                                <div>
-                                    <Select
-                                        value={orderBy}
-                                        onChange={handleChangeOrderBy}
-                                    >
-                                        {searchOptions.sort.map((sort) => (
-                                            <option
-                                                value={sort.value}
-                                                key={sort.id}
-                                            >
-                                                {sort.text}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                </div>
-                            </Subject>
-                            <PostList
-                                orderBy={orderBy}
-                                userId={id}
-                                renderType="timeline"
+        <Query
+            query={GET_USER}
+            variables={{
+                id
+            }}
+        >
+            {({ data: { user } }) => {
+                const { avatar, nickname, postCount } = user;
+                return (
+                    <>
+                        <Meta title={`Frisklog - ${nickname}`} />
+                        <div className={`${displayName}__info`}>
+                            <Avatar
+                                src={avatar.url}
+                                size="200"
+                                userId={user.id}
+                            />
+                            <div
+                                className={`${displayName}__info__description`}
                             >
-                                {({ posts }) => posts}
-                            </PostList>
-                        </Container>
-                    );
-                }}
-            </Query>
-        </div>
+                                <h1>{nickname}</h1>
+                                <em>{postCount} posts</em>
+                            </div>
+                        </div>
+                        <Subject>
+                            <span>게시물 목록</span>
+                            <div>
+                                <Select
+                                    value={orderBy}
+                                    onChange={handleChangeOrderBy}
+                                >
+                                    {searchOptions.sort.map((sort) => (
+                                        <option
+                                            value={sort.value}
+                                            key={sort.id}
+                                        >
+                                            {sort.text}
+                                        </option>
+                                    ))}
+                                </Select>
+                            </div>
+                        </Subject>
+                        <PostList
+                            orderBy={orderBy}
+                            userId={id}
+                            renderType="timeline"
+                        >
+                            {({ posts }) => posts}
+                        </PostList>
+                    </>
+                );
+            }}
+        </Query>
     );
 };
 

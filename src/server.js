@@ -3,15 +3,12 @@ import express from 'express'
 import { StaticRouter } from 'react-router-dom'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { ServerStyleSheet, ThemeProvider } from 'styled-components'
 import { ApolloProvider } from '@apollo/client'
 import { getDataFromTree } from '@apollo/client/react/ssr'
 import { Helmet } from 'react-helmet'
 import cookieParser from 'cookie-parser'
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server'
 import { ContextProvider } from './context'
-import GlobalStyle from './theme/globalStyle'
-import theme from './theme'
 import { initializeApollo } from './lib/apollo'
 import App from './App'
 
@@ -33,20 +30,15 @@ server
         })
         /** Init apollo client */
         const client = initializeApollo()
-        /** Create the server side style sheet */
-        const sheet = new ServerStyleSheet()
 
         const Root = () => (
             <ChunkExtractorManager extractor={extractor}>
                 <ApolloProvider client={client}>
-                    <ThemeProvider theme={theme}>
-                        <ContextProvider>
-                            <GlobalStyle />
-                            <StaticRouter location={location} context={{}}>
-                                <App />
-                            </StaticRouter>
-                        </ContextProvider>
-                    </ThemeProvider>
+                    <ContextProvider>
+                        <StaticRouter location={location} context={{}}>
+                            <App />
+                        </StaticRouter>
+                    </ContextProvider>
                 </ApolloProvider>
             </ChunkExtractorManager>
         )
@@ -60,9 +52,8 @@ server
         /** Get apollo cache */
         const initialApolloState = client.extract()
         /** When the app is rendered collect the styles that are used inside it */
-        const markup = renderToString(sheet.collectStyles(<Root />))
-        /** Generate all the style tags so they can be rendered into the page */
-        const styleTags = sheet.getStyleTags()
+        const markup = renderToString(extractor.collectChunks(<Root />))
+
         const helmet = Helmet.renderStatic()
 
         res.status(200).send(`
@@ -79,8 +70,6 @@ server
                         ${helmet.meta.toString()} ${helmet.link.toString()}
                         ${extractor.getLinkTags()}
                         ${extractor.getStyleTags()}
-                        <!-- Render the style tags gathered from the components into the DOM -->
-                        ${styleTags}
                         ${extractor.getScriptTags()}
 
                         <!-- Global site tag (gtag.js) - Google Analytics -->

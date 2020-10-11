@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { GET_POSTS } from "../graphql/query/post";
 import Query from "./Query";
 import Scroll from "./Scroll";
@@ -8,12 +7,6 @@ import PostCardTypeItem from "./PostCardTypeItem";
 import NoData from "./NoData";
 import { useSelector } from "../context";
 
-const Container = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    flex: 0 1 auto;
-`;
 /**
  * * 페이지 게시물 렌더링 컴포넌트
  *
@@ -56,7 +49,7 @@ const PostList = ({
                 children({
                     total: posts.total,
                     posts: (
-                        <Container>
+                        <div className="fr-grid-wrapper">
                             {posts.data.length > 0 ? (
                                 <>
                                     {posts.data.map((post) => {
@@ -124,7 +117,7 @@ const PostList = ({
                             ) : (
                                 <NoData />
                             )}
-                        </Container>
+                        </div>
                     )
                 })
             }

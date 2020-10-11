@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { useMutation } from "@apollo/client";
-import styled from "styled-components";
 import { CREATE_POST } from "../../graphql/mutation/post";
 import { useDispatch } from "../../context";
 import { SHOW_LOGIN_MODAL } from "../../context/action";
@@ -11,22 +10,6 @@ import { useInput } from "../../hooks";
 import Meta from "../../components/Meta";
 import Loader from "../../components/Loader";
 import { TOKEN_KEY, getStorage } from "../../lib/state";
-
-const Container = styled.form`
-    & input {
-        background: white;
-    }
-`;
-
-const CategoryWrapper = styled.div`
-    height: auto;
-    display: flex;
-    justify-content: flex-start;
-`;
-
-const SubmitWrapper = styled.div`
-    margin-top: 1rem;
-`;
 
 /**
  * 게시물 등록 화면 컴포넌트
@@ -153,10 +136,10 @@ const CreatePostPage = () => {
     );
 
     return (
-        <Container onSubmit={handleSubmit}>
+        <form className="fr-post__form" onSubmit={handleSubmit}>
             {loading && <Loader />}
             <Meta title="게시물 등록" description="create post in frisklog" />
-            <CategoryWrapper>
+            <div className="fr-post__category">
                 <FormInput
                     type="text"
                     placeholder="카테고리를 입력하세요"
@@ -166,7 +149,8 @@ const CreatePostPage = () => {
                     {...category}
                     label="카테고리"
                 />
-            </CategoryWrapper>
+            </div>
+
             <FormInput
                 type="text"
                 placeholder="제목을 입력하세요"
@@ -177,10 +161,10 @@ const CreatePostPage = () => {
                 label="제목"
             />
             <Editor onChange={(content) => setContent(content)} />
-            <SubmitWrapper>
+            <div className="mt-3">
                 <Button type="submit">등록</Button>
-            </SubmitWrapper>
-        </Container>
+            </div>
+        </form>
     );
 };
 

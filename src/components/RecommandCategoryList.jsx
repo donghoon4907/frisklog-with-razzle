@@ -10,7 +10,7 @@ import RecommandCategoryItem from "./RecommandCategoryItem";
  * @author frisk
  */
 const RecommandCategoryList = () => (
-    <div>
+    <ul>
         <Query
             query={GET_CATEGORIES}
             variables={{
@@ -24,7 +24,7 @@ const RecommandCategoryList = () => (
                 ))
             }
         </Query>
-    </div>
+    </ul>
 );
 
 export default memo(RecommandCategoryList);

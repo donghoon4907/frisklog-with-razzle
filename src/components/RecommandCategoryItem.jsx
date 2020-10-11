@@ -1,29 +1,8 @@
 import React, { useState, useRef, useCallback, memo } from "react";
-import styled from "styled-components";
 import { Overlay } from "react-bootstrap";
 import { useSelector } from "../context";
 import BtnLink from "./BtnLink";
 
-const Title = styled.h6`
-    width: 150px;
-    font-weight: 500;
-    height: 40px;
-    font-size: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-`;
-
-const BtnWrapper = styled.div`
-    width: 100%;
-    height: 40px;
-    position: relative;
-    margin-bottom: 10px;
-    overflow: hidden;
-`;
 /**
  * * 추천 카테고리 랜더링 컴포넌트
  *
@@ -33,6 +12,7 @@ const BtnWrapper = styled.div`
  *
  */
 const RecommandCategoryItem = ({ content }) => {
+    const displayName = "fr-category";
     /**
      * 로컬 상태 감시 모듈 활성화
      */
@@ -63,7 +43,8 @@ const RecommandCategoryItem = ({ content }) => {
     }, [isCollapseNav]);
 
     return (
-        <BtnWrapper
+        <li
+            className={`${displayName}-wrapper`}
             ref={$btn}
             onMouseEnter={handleEnterBtn}
             onMouseLeave={handleLeaveBtn}
@@ -88,13 +69,11 @@ const RecommandCategoryItem = ({ content }) => {
                                 "0 1px 2px rgba(0, 0, 0, 0.15), 0 0 2px rgba(0, 0, 0, 0.1)"
                         }}
                     >
-                        <div>
-                            <Title>{content}</Title>
-                        </div>
+                        <em className={displayName}>{content}</em>
                     </div>
                 )}
             </Overlay>
-        </BtnWrapper>
+        </li>
     );
 };
 

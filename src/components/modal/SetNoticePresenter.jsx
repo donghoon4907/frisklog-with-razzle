@@ -1,31 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import { Modal, Button } from "react-bootstrap";
 import { FormInput, FormTextArea } from "../Form";
 import Loader from "../Loader";
-
-const ReadOnlyDescription = styled.div`
-    ${(props) => props.theme.whiteBox};
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 300px;
-    overflow: auto;
-    background: white;
-    padding: 15px;
-`;
-
-const PreviewWrap = styled(ReadOnlyDescription)`
-    z-index: 10;
-
-    & > span {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        cursor: pointer;
-    }
-`;
 
 /**
  * 공지사항 팝업 프레젠터 컴포넌트
@@ -89,19 +65,19 @@ const SetNoticePresenter = ({
                     id="description"
                     required
                     autoComplete="off"
-                    height={300}
                     {...description}
+                    rows="16"
                     label="내용"
                 >
                     {(action.code === "readonly" ||
                         action.code === "modifiable") && (
-                        <ReadOnlyDescription
+                        <div
+                            className="fr-modal-notice__description--readonly markdown-body"
                             dangerouslySetInnerHTML={{ __html: mdDescription }}
-                            className="markdown-body"
-                        ></ReadOnlyDescription>
+                        ></div>
                     )}
                     {preview && (
-                        <PreviewWrap>
+                        <div className="fr-modal-notice__description--readonly preview">
                             <div
                                 dangerouslySetInnerHTML={{ __html: preview }}
                                 className="markdown-body"
@@ -109,7 +85,7 @@ const SetNoticePresenter = ({
                             <span aria-hidden="true" onClick={onClosePreview}>
                                 ×
                             </span>
-                        </PreviewWrap>
+                        </div>
                     )}
                 </FormTextArea>
             </Modal.Body>

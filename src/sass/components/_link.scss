@@ -1,0 +1,13 @@
+.fr-link {
+    color: inherit;
+    text-decoration: none;
+
+    &:focus,
+    &:hover,
+    &:visited,
+    &:link,
+    &:active {
+        color: inherit;
+        text-decoration: none;
+    }
+}

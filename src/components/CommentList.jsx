@@ -1,6 +1,5 @@
 import React, { memo, useCallback, useEffect } from "react";
 import { useRouteMatch } from "react-router-dom";
-import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_COMMENTS } from "../graphql/query/comment";
 import { CREATE_COMMENT } from "../graphql/mutation/comment";
@@ -12,12 +11,6 @@ import { useDispatch } from "../context";
 import { SHOW_LOGIN_MODAL } from "../context/action";
 import CommentItem from "./CommentItem";
 import Loader from "./Loader";
-
-const CommentContainer = styled.form`
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-`;
 
 /**
  * * 댓글 목록 렌더링 컴포넌트
@@ -183,7 +176,7 @@ const CommentList = () => {
     }, [data && data.comments, loading]);
 
     return (
-        <CommentContainer onSubmit={handleSubmit}>
+        <form className="d-flex flex-column mt-4" onSubmit={handleSubmit}>
             {(loading || createLoading) && <Loader />}
             <FormTextArea
                 placeholder="댓글을 입력하세요."
@@ -195,11 +188,13 @@ const CommentList = () => {
                 label="댓글"
             />
             <Button type="submit">댓글 작성</Button>
-            {data &&
-                data.comments.data.map((comment) => (
-                    <CommentItem key={comment.id} {...comment} />
-                ))}
-        </CommentContainer>
+            <ul>
+                {data &&
+                    data.comments.data.map((comment) => (
+                        <CommentItem key={comment.id} {...comment} />
+                    ))}
+            </ul>
+        </form>
     );
 };
 

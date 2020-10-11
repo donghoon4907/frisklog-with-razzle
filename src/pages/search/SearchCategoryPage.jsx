@@ -28,7 +28,7 @@ const SearchCategoryPage = ({
     }, []);
 
     return (
-        <div>
+        <>
             <Meta title={`Frisklog - #${content}`} />
             <div>
                 <Subject>
@@ -47,7 +47,7 @@ const SearchCategoryPage = ({
             <PostList orderBy={orderBy} category={content}>
                 {({ posts }) => posts}
             </PostList>
-        </div>
+        </>
     );
 };
 

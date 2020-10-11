@@ -1,16 +1,9 @@
 import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import { Add } from "../assets/icon";
 import { useDispatch } from "../context";
 import { SHOW_LOGIN_MODAL } from "../context/action";
 import { TOKEN_KEY, getStorage } from "../lib/state";
-
-const Container = styled.button`
-    ${(props) => props.theme.media.tablet} {
-        display: none;
-    }
-`;
 
 /**
  * 헤더 게시물 추가 컴포넌트
@@ -52,14 +45,14 @@ const CreatePostBtn = () => {
     }, []);
 
     return (
-        <Container
-            type="button"
+        <button
+            className="fr-header__post"
             aria-haspopup="true"
             onClick={handleClick}
             title="포스트 등록"
         >
             <Add />
-        </Container>
+        </button>
     );
 };
 

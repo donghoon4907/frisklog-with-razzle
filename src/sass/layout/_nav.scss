@@ -1,0 +1,43 @@
+@import "../utilities/variables";
+
+.fr-nav {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    height: 100%;
+    padding: 8px;
+    z-index: 10;
+    border-right: $fr-box-border;
+    flex-shrink: 0;
+
+    &--state {
+        &-expand {
+            width: 15rem;
+
+            & svg {
+                transform: rotate(0deg);
+            }
+            & hr {
+                display: none;
+            }
+        }
+        &-contract {
+            width: 4.6rem;
+
+            & svg {
+                transform: rotate(180);
+            }
+            & hr {
+                display: block;
+            }
+        }
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        & svg {
+            fill: $fr-btn-color;
+        }
+    }
+}

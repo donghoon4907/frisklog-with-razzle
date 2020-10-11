@@ -1,30 +1,9 @@
 import React, { useCallback, useRef } from "react";
-import styled from "styled-components";
 import Loader from "./Loader";
 import { useLazyAxios } from "../hooks";
 
 const Editor =
     typeof window !== "undefined" && require("@toast-ui/react-editor").Editor;
-
-const Container = styled.div`
-    & .te-tab-active {
-        ${(props) => props.theme.media.phone} {
-            width: 100% !important;
-        }
-    }
-
-    & .te-md-splitter {
-        ${(props) => props.theme.media.phone} {
-            display: none !important;
-        }
-    }
-
-    & .te-preview {
-        ${(props) => props.theme.media.phone} {
-            display: none !important;
-        }
-    }
-`;
 
 /**
  * * 게시물 에디터 컴포넌트
@@ -66,14 +45,14 @@ const PostEditor = (props) => {
     }, [props]);
 
     return (
-        <Container>
+        <div className="fr-editor">
             {loading && <Loader />}
             {typeof window !== "undefined" && (
                 <Editor
                     {...props}
                     initialValue={initialValue || ""}
                     previewStyle={previewStyle || "vertical"}
-                    height={height || "35rem"}
+                    height={height || "75vh"}
                     initialEditType={initialEditType || "markdown"}
                     useCommandShortcut={useCommandShortcut || true}
                     ref={$editor}
@@ -113,7 +92,7 @@ const PostEditor = (props) => {
                     }}
                 />
             )}
-        </Container>
+        </div>
     );
 };
 

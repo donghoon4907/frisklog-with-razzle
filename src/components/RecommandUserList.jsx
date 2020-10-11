@@ -10,7 +10,7 @@ import Query from "./Query";
  * @author frisk
  */
 const RecommandUserList = () => (
-    <div>
+    <ul>
         <Query
             query={GET_USERS}
             variables={{
@@ -24,7 +24,7 @@ const RecommandUserList = () => (
                 ))
             }
         </Query>
-    </div>
+    </ul>
 );
 
 export default memo(RecommandUserList);

@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from "react";
-import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/client";
 import { UPDATE_POST } from "../../graphql/mutation/post";
 import { GET_POST } from "../../graphql/query/post";
@@ -12,23 +11,6 @@ import { useInput } from "../../hooks";
 import Loader from "../../components/Loader";
 import { TOKEN_KEY, getStorage } from "../../lib/state";
 import { FormInput } from "../../components/Form";
-
-const Container = styled.div`
-    & input {
-        background: white;
-    }
-`;
-
-const CategoryWrapper = styled.div`
-    height: auto;
-    min-height: 50px;
-    display: flex;
-    justify-content: flex-start;
-`;
-
-const SubmitWrapper = styled.div`
-    margin-top: 1rem;
-`;
 
 /**
  * 게시물 수정 화면 컴포넌트
@@ -68,99 +50,103 @@ const UpdatePostPage = ({ match }) => {
     /**
      * 등록 핸들러
      */
-    const handleSubmit = useCallback(async () => {
-        /**
-         * 토큰 로드
-         */
-        const token = getStorage(TOKEN_KEY);
-
-        if (token) {
+    const handleSubmit = useCallback(
+        async (e) => {
+            e.preventDefault();
             /**
-             * 등록 요청 중인 경우
+             * 토큰 로드
              */
-            if (updatePostLoading) {
-                return alert("요청 중입니다");
-            }
-            if (!title.value) {
-                return alert("제목을 입력하세요.");
-            }
-            if (title.value.length > 50) {
-                return alert("제목은 50자 미만으로 입력하세요.");
-            }
-            if (category.value.length > 10) {
-                return alert("카테고리는 10자 미만으로 입력하세요.");
-            }
-            /**
-             * 설명
-             * @type {string}
-             */
-            const description = _content.description;
-            /**
-             * 내용
-             * @type {string}
-             */
-            const content = _content.markdown;
-            /**
-             * 썸네일
-             * @type {string|undefined}
-             */
-            let thumbnail;
-            /**
-             * 썸네일 유무 체크
-             */
-            const reg = /\!\[([^\]]+)\]\(([^\)]+)\)/g;
+            const token = getStorage(TOKEN_KEY);
 
-            let foundThumbnails = content.match(reg);
+            if (token) {
+                /**
+                 * 등록 요청 중인 경우
+                 */
+                if (updatePostLoading) {
+                    return alert("요청 중입니다");
+                }
+                if (!title.value) {
+                    return alert("제목을 입력하세요.");
+                }
+                if (title.value.length > 50) {
+                    return alert("제목은 50자 미만으로 입력하세요.");
+                }
+                if (category.value.length > 10) {
+                    return alert("카테고리는 10자 미만으로 입력하세요.");
+                }
+                /**
+                 * 설명
+                 * @type {string}
+                 */
+                const description = _content.description;
+                /**
+                 * 내용
+                 * @type {string}
+                 */
+                const content = _content.markdown;
+                /**
+                 * 썸네일
+                 * @type {string|undefined}
+                 */
+                let thumbnail;
+                /**
+                 * 썸네일 유무 체크
+                 */
+                const reg = /\!\[([^\]]+)\]\(([^\)]+)\)/g;
 
-            if (foundThumbnails) {
-                thumbnail = foundThumbnails[0].substring(
-                    foundThumbnails[0].indexOf("(") + 1,
-                    foundThumbnails[0].lastIndexOf(")")
-                );
-            }
+                let foundThumbnails = content.match(reg);
 
-            const tf = confirm("입력한 내용으로 게시물을 수정하시겠어요?");
+                if (foundThumbnails) {
+                    thumbnail = foundThumbnails[0].substring(
+                        foundThumbnails[0].indexOf("(") + 1,
+                        foundThumbnails[0].lastIndexOf(")")
+                    );
+                }
 
-            if (tf) {
-                try {
-                    const {
-                        data: { updatePost }
-                    } = await upd({
-                        variables: {
-                            id: post.id,
-                            title: title.value,
-                            description,
-                            content,
-                            category: category.value,
-                            thumbnail
-                        }
-                    });
-                    if (updatePost) {
-                        alert("게시물이 수정되었습니다.");
-                    }
-                } catch (error) {
-                    const { message, status } = JSON.parse(error.message);
-                    if (status === 401) {
-                        /**
-                         * 로그인 팝업 보이기
-                         */
-                        dispatch({
-                            type: SHOW_LOGIN_MODAL
+                const tf = confirm("입력한 내용으로 게시물을 수정하시겠어요?");
+
+                if (tf) {
+                    try {
+                        const {
+                            data: { updatePost }
+                        } = await upd({
+                            variables: {
+                                id: post.id,
+                                title: title.value,
+                                description,
+                                content,
+                                category: category.value,
+                                thumbnail
+                            }
                         });
-                    } else {
-                        alert(message);
+                        if (updatePost) {
+                            alert("게시물이 수정되었습니다.");
+                        }
+                    } catch (error) {
+                        const { message, status } = JSON.parse(error.message);
+                        if (status === 401) {
+                            /**
+                             * 로그인 팝업 보이기
+                             */
+                            dispatch({
+                                type: SHOW_LOGIN_MODAL
+                            });
+                        } else {
+                            alert(message);
+                        }
                     }
                 }
+            } else {
+                /**
+                 * 로그인 팝업 보이기
+                 */
+                dispatch({
+                    type: SHOW_LOGIN_MODAL
+                });
             }
-        } else {
-            /**
-             * 로그인 팝업 보이기
-             */
-            dispatch({
-                type: SHOW_LOGIN_MODAL
-            });
-        }
-    }, [updatePostLoading, title.value, category.value, _content]);
+        },
+        [updatePostLoading, title.value, category.value, _content]
+    );
 
     /**
      * 라이프 사이클 모듈 활성화
@@ -180,10 +166,10 @@ const UpdatePostPage = ({ match }) => {
     const { post } = data;
 
     return (
-        <Container>
+        <form className="fr-post__form" onSubmit={handleSubmit}>
             {updatePostLoading && <Loader />}
             <Meta title="게시물 수정" description="update post in frisklog" />
-            <CategoryWrapper>
+            <div className="fr-post__category">
                 <FormInput
                     type="text"
                     placeholder="카테고리를 입력하세요"
@@ -193,7 +179,8 @@ const UpdatePostPage = ({ match }) => {
                     label="카테고리"
                     {...category}
                 />
-            </CategoryWrapper>
+            </div>
+
             <FormInput
                 type="text"
                 placeholder="제목을 입력하세요"
@@ -208,10 +195,10 @@ const UpdatePostPage = ({ match }) => {
                 initialValue={post.content}
                 initialEditType="markdown"
             />
-            <SubmitWrapper>
-                <Button onClick={handleSubmit}>수정</Button>
-            </SubmitWrapper>
-        </Container>
+            <div className="mt-3">
+                <Button type="submit">수정</Button>
+            </div>
+        </form>
     );
 };
 

@@ -6,14 +6,12 @@ const LoadableBabelPlugin = require('@loadable/babel-plugin')
 const babelPresetRazzle = require('razzle/babel')
 
 module.exports = {
+    plugins: ['scss'],
     modify: (config, { dev, target }) => {
-        const isDev = dev === true
-        const isWeb = target === 'web'
-
         const appConfig = Object.assign({}, config)
 
         // Run client only
-        if (isWeb) {
+        if (target === 'web') {
             const filename = path.resolve(__dirname, 'build')
 
             appConfig.plugins.push(
@@ -23,7 +21,7 @@ module.exports = {
                 })
             )
 
-            appConfig.output.filename = isDev
+            appConfig.output.filename = dev
                 ? 'static/js/[name].js'
                 : 'static/js/[name].[chunkhash:8].js'
 
@@ -37,10 +35,11 @@ module.exports = {
                         }
                     },
                     chunks: 'all',
-                    name: isDev
+                    name: dev
                 }
             })
         }
+
         return appConfig
     },
     modifyBabelOptions: () => ({

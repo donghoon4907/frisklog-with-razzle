@@ -1,52 +1,10 @@
 import React, { useCallback, useEffect } from "react";
-import styled from "styled-components";
 import { useSelector, useDispatch } from "../context";
 import { EXPAND_NAVIGATION, CONTRACT_NAVIGATION } from "../context/action";
 import { COLLAPSE_KEY, getStorage, setStorage } from "../lib/state";
 import { Collapse } from "../assets/icon";
 import RecommandUserList from "./RecommandUserList";
 import RecommandCategoryList from "./RecommandCategoryList";
-
-const Container = styled.nav`
-    background: white;
-    width: ${(props) => (props.collapse === "expand" ? 230 : 60)}px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 8px;
-    z-index: 10;
-    flex-shrink: 0;
-    border-right: ${(props) => props.theme.boxBorder};
-
-    ${(props) => props.theme.media.desktop} {
-        display: none;
-    }
-
-    & svg {
-        transform: rotate(
-            ${(props) => (props.collapse === "expand" ? 0 : 180)}deg
-        );
-    }
-
-    & span {
-        display: ${(props) => (props.collapse === "expand" ? "block" : "none")};
-    }
-
-    & hr {
-        display: ${(props) => (props.collapse === "expand" ? "none" : "block")};
-    }
-`;
-
-const Top = styled.div`
-    display: flex;
-    justify-content: ${(props) =>
-        props.collapse === "expand" ? "space-between" : "center"};
-    align-items: center;
-
-    & svg {
-        fill: ${(props) => props.theme.blueColor};
-    }
-`;
 
 /**
  * 공통 네비게이션 컴포넌트
@@ -55,6 +13,7 @@ const Top = styled.div`
  * @author frisk
  */
 const Nav = () => {
+    const displayName = "fr-nav";
     /**
      * 로컬 상태 변경 모듈 활성화
      */
@@ -95,11 +54,17 @@ const Nav = () => {
     }, []);
 
     return (
-        <Container collapse={isCollapseNav} id="nav">
-            <Top collapse={isCollapseNav}>
-                <span>추천 블로그</span>
+        <nav
+            id="nav"
+            className={`${displayName} ${displayName}--state-${isCollapseNav}`}
+        >
+            <div
+                className={`${displayName}__header justify-content-${
+                    isCollapseNav === "expand" ? "between" : "center"
+                }`}
+            >
+                {isCollapseNav === "expand" && <h5>추천 블로그</h5>}
                 <button
-                    type="button"
                     aria-pressed={isCollapseNav === "expand"}
                     aria-expanded={isCollapseNav === "expand"}
                     aria-controls="nav"
@@ -113,14 +78,16 @@ const Nav = () => {
                             : "네비게이션 확장"}
                     </span>
                 </button>
-            </Top>
-            <RecommandUserList />
-            <hr />
-            <span style={{ marginTop: 50, marginBottom: 10 }}>
-                추천 카테고리
-            </span>
-            <RecommandCategoryList />
-        </Container>
+            </div>
+            <div className={`${displayName}__body`}>
+                <RecommandUserList />
+                <hr />
+                {isCollapseNav === "expand" && (
+                    <h5 className="mt-3 mb-1">추천 카테고리</h5>
+                )}
+                <RecommandCategoryList />
+            </div>
+        </nav>
     );
 };
 

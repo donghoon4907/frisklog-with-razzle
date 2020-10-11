@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
-import styled from "styled-components";
 import { useQuery } from "@apollo/client";
 import loadable from "@loadable/component";
 import Header from "./components/Header";
@@ -11,6 +10,13 @@ import { useDispatch, useSelector } from "./context";
 import { CONTRACT_NAVIGATION, SET_ME, SET_IS_MOBILE } from "./context/action";
 import { ME } from "./graphql/query/user";
 import { COLLAPSE_KEY, setStorage } from "./lib/state";
+
+import "github-markdown-css/github-markdown.css";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import "./sass/main.scss";
 
 const Feed = loadable(() => import("./pages/feed"));
 const SearchPostPage = loadable(() => import("./pages/search/SearchPostPage"));
@@ -23,47 +29,8 @@ const UpdatePostPage = loadable(() => import("./pages/post/UpdatePostPage"));
 const User = loadable(() => import("./pages/user"));
 const NoMatch = loadable(() => import("./pages/404"));
 
-const Container = styled.div`
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-`;
-
-const Section = styled.section`
-    display: flex;
-    flex-wrap: nowrap;
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-`;
-
-const Main = styled.main`
-    z-index: 0;
-    position: relative;
-    flex-grow: 1;
-    flex-direction: column;
-    display: flex;
-    height: 100%;
-    width: 100%;
-    padding: 1rem;
-    overflow: auto;
-
-    ${(props) => props.theme.media.desktop} {
-        margin-left: 0;
-    }
-
-    ${(props) => props.theme.media.phone} {
-        padding: 1rem;
-    }
-`;
-
 const App = () => {
+    const displayName = "fr-app";
     /**
      * 로컬 상태 변경 모듈 활성화
      */
@@ -160,11 +127,11 @@ const App = () => {
     }, []);
 
     return (
-        <Container>
+        <div className={`${displayName}__container`}>
             <Header />
-            <Section>
+            <section className={`${displayName}__section`}>
                 <Nav />
-                <Main collapse={isCollapseNav} id="main">
+                <main className={`${displayName}`} id="main">
                     <Switch>
                         <Route exact path="/" component={Feed} />
                         <Route
@@ -191,11 +158,11 @@ const App = () => {
                         />
                         <Route component={NoMatch} />
                     </Switch>
-                </Main>
+                </main>
                 {isShowLoginModal && <AuthModal />}
                 {isShowNoticeModal && <SetNoticeModal />}
-            </Section>
-        </Container>
+            </section>
+        </div>
     );
 };
 

@@ -1,75 +1,81 @@
-import { createGlobalStyle } from 'styled-components'
-import normalize from 'styled-normalize'
+@import "../utilities/variables";
+@import "../utilities/mixins";
 
-const GlobalStyle = createGlobalStyle`
-  ${normalize}
+body {
+    background: $fr-bg-color;
+}
 
-  body {
-    background: #f7f7f8 !important;
-  }
-  
-  #root, body, html {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 0;
+}
+
+#root,
+body,
+html {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
-    position: relative;
     width: 100%;
-  }
+    font-size: 14px;
+}
 
-  hr {
+hr {
     width: 100%;
-  }
+}
 
-  button {
+button {
     border: none;
     margin: 0;
     padding: 0;
     width: auto;
     overflow: visible;
     background: transparent;
-  }
+}
 
-  button:focus {
+button:focus {
     outline: 0 !important;
-  }
+}
 
-  .a11y-hidden {
+.a11y-hidden {
     position: absolute;
     width: 1px;
     height: 1px;
     margin: -1px;
     overflow: hidden;
     clip-path: polygon(0 0, 0 0, 0 0);
-  }
+}
 
-  .modal {
+.modal {
     display: flex !important;
-  }
+}
 
-  .modal-dialog {
+.modal-dialog {
     flex: 1;
     margin: 0 !important;
     display: flex;
     justify-content: center;
     align-items: center;
     max-width: 100% !important;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     max-width: 500px;
-  }
+}
 
-  .te-mode-switch-section {
+.te-mode-switch-section {
     display: none !important;
-  }
+}
 
-  .tui-editor-contents pre {
-    ${(props) => props.theme.whiteBox};
-  }
+.tui-editor-contents pre {
+    @include wb;
+}
 
-  .tui-editor-contents img {
+.tui-editor-contents img {
     width: 100%;
-  }
-`
-
-export default GlobalStyle
+}

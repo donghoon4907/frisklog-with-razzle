@@ -1,0 +1,88 @@
+@import "../utilities/variables";
+@import "../utilities/mixins";
+
+.fr-form {
+    &-wrapper {
+        border-radius: 0;
+        width: 100%;
+        max-width: 23rem;
+
+        @include wb;
+    }
+
+    &__changer {
+        text-align: center;
+        padding: 1.3rem 0px;
+    }
+
+    &__link {
+        color: $fr-btn-color;
+        cursor: pointer;
+    }
+
+    &__label {
+        position: absolute;
+        top: 2px;
+        left: 5px;
+        font-size: 0.1rem;
+        animation: opacity 2s slidein;
+        z-index: 100;
+
+        &--state {
+            &-typing {
+                opacity: 0.5;
+            }
+            &-empty {
+                opacity: 0;
+            }
+        }
+    }
+
+    &__input {
+        border: 0;
+        border: $fr-box-border;
+        border-radius: $fr-border-radius;
+        background: $fr-bg-color;
+        width: 100%;
+        height: 2.3rem;
+        padding: 0px 1rem;
+        font-size: 0.8rem;
+
+        &:focus {
+            outline: none;
+        }
+
+        &-wrapper {
+            position: relative;
+            margin-bottom: 10px;
+        }
+    }
+
+    &__select {
+        display: block;
+        width: 100%;
+        height: 35px;
+        font-size: 14px;
+
+        &:focus {
+            outline: none;
+        }
+
+        @include wb;
+    }
+
+    &__textarea {
+        width: 100%;
+        resize: none;
+        font-size: 0.8rem;
+        overflow: auto;
+        background: $fr-bg-color;
+        padding: 1rem;
+
+        &:focus {
+            outline: none;
+        }
+
+        @include wb;
+    }
+}

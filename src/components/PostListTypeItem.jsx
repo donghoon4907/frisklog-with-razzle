@@ -1,126 +1,11 @@
 import React from "react";
-import styled from "styled-components";
 import moment from "moment";
 import Avatar from "./Avatar";
 import Timestamp from "./Timestamp";
 import StyledLink from "./StyledLink";
-import { HeartFull, Comment, View } from "../assets/icon";
+import { HeartFull, Comment } from "../assets/icon";
 import BtnLink from "./BtnLink";
 import { timeForToday } from "../lib/date";
-
-const Container = styled.div`
-    height: auto;
-    display: flex;
-    width: 100%;
-    justify-content: flex-start;
-
-    &:hover {
-        background: rgba(0, 0, 0, 0.1);
-    }
-`;
-
-const TimelineWrapper = styled.div`
-    width: 200px;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 50px;
-
-    ${(props) => props.theme.media.phone} {
-        display: none;
-    }
-`;
-
-const Timeline = styled.div`
-    position: relative;
-    border: 1px solid lightgray;
-`;
-
-const TimestampWrapper = styled.div`
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    top: 5px;
-    text-align: right;
-    left: -150px;
-    width: 130px;
-`;
-
-const Stamp = styled.div`
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 8px;
-    left: -8px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: inherit;
-    z-index: 1;
-`;
-
-const ChildStamp = styled.div`
-    background: ${(props) => props.theme.blueColor};
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    position: relative;
-`;
-
-const TitleWrapper = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-`;
-
-const Category = styled.div`
-    width: auto;
-    margin-right: 10px;
-`;
-
-const Title = styled.h4`
-    ${(props) => props.theme.media.desktop} {
-        font-size: 20px;
-    }
-`;
-const Description = styled.p`
-    word-break: break-word;
-    overflow-wrap: break-word;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    height: 3.9375rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: rgb(73, 80, 87);
-
-    ${(props) => props.theme.media.desktop} {
-        font-size: 14px;
-    }
-`;
-
-const MetaWrapper = styled.div`
-    flex: 1;
-    padding: 5px;
-`;
-
-const MetaFooter = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const MetaColumn = styled.div`
-    display: flex;
-    justfiy-content: flex-start;
-    align-items: center;
-
-    & span {
-        margin-right: 5px;
-    }
-`;
 
 /**
  * * 게시물 리스트형 렌더링 컴포넌트
@@ -145,67 +30,81 @@ const PostListTypeItem = ({
     user,
     createdAt,
     likeCount,
-    viewCount,
     category,
     commentCount,
     renderType
-}) => (
-    <Container>
-        {renderType === "timeline" && (
-            <TimelineWrapper>
-                <Timeline>
-                    <Stamp>
-                        <ChildStamp />
-                    </Stamp>
-                    <TimestampWrapper>
-                        <time>
-                            {moment(createdAt).format("YYYY년 MM월 DD일")}
-                        </time>
-                        <Timestamp>
-                            {moment(createdAt).format("HH시 mm분")}
-                        </Timestamp>
-                    </TimestampWrapper>
-                </Timeline>
-            </TimelineWrapper>
-        )}
-        <MetaWrapper>
-            <TitleWrapper>
-                <Category>
-                    <BtnLink to={`/category/${category}`}>{category}</BtnLink>
-                </Category>
+}) => {
+    const displayName = "fr-grid";
 
-                <Title>
-                    <StyledLink to={`/post/${id}`}>{title}</StyledLink>
-                </Title>
-            </TitleWrapper>
+    return (
+        <div className={displayName}>
+            {renderType === "timeline" && (
+                <div className={`${displayName}__timeline-wrapper`}>
+                    <div className={`${displayName}__timeline`}>
+                        <div className={`${displayName}__timeline__stamp`}>
+                            <div
+                                className={`${displayName}__timeline__stamp__dot`}
+                            />
+                        </div>
+                        <div className={`${displayName}__timeline__timestamp`}>
+                            <time>
+                                {moment(createdAt).format("YYYY년 MM월 DD일")}
+                            </time>
+                            <Timestamp>
+                                {moment(createdAt).format("HH시 mm분")}
+                            </Timestamp>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <div className={`${displayName}__meta`}>
+                <div className={`${displayName}__meta__header`}>
+                    <div className={`${displayName}__meta__header__category`}>
+                        <BtnLink to={`/category/${category}`}>
+                            {category}
+                        </BtnLink>
+                    </div>
 
-            <Description>
-                <StyledLink to={`/post/${id}`}>{description}</StyledLink>
-            </Description>
-            <MetaFooter>
-                <MetaColumn>
-                    <Avatar src={user.avatar.url} size="30" userId={user.id} />
-                    <span>{user.nickname}</span>
-                    {renderType !== "timeline" && (
-                        <>
-                            <span>·</span>
-                            <span>{timeForToday(createdAt)}</span>
-                        </>
-                    )}
-                </MetaColumn>
-                <MetaColumn>
-                    <div title="좋아요 수">
-                        <HeartFull />
-                        <span>{likeCount}</span>
+                    <h4 className={`${displayName}__meta__header__title`}>
+                        <StyledLink to={`/post/${id}`}>{title}</StyledLink>
+                    </h4>
+                </div>
+
+                <p
+                    className={`${displayName}__meta__body`}
+                    style={{ WebkitBoxOrient: "vertical" }}
+                >
+                    <StyledLink to={`/post/${id}`}>{description}</StyledLink>
+                </p>
+                <div className={`${displayName}__meta__footer`}>
+                    <div className={`${displayName}__meta__footer__column`}>
+                        <Avatar
+                            src={user.avatar.url}
+                            size="30"
+                            userId={user.id}
+                        />
+                        <span>{user.nickname}</span>
+                        {renderType !== "timeline" && (
+                            <>
+                                <span>·</span>
+                                <span>{timeForToday(createdAt)}</span>
+                            </>
+                        )}
                     </div>
-                    <div title="댓글 수">
-                        <Comment />
-                        <span>{commentCount}</span>
+                    <div className={`${displayName}__meta__footer__column`}>
+                        <div title="좋아요 수">
+                            <HeartFull />
+                            <span>{likeCount}</span>
+                        </div>
+                        <div title="댓글 수">
+                            <Comment />
+                            <span>{commentCount}</span>
+                        </div>
                     </div>
-                </MetaColumn>
-            </MetaFooter>
-        </MetaWrapper>
-    </Container>
-);
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default PostListTypeItem;

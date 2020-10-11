@@ -1,5 +1,4 @@
 import React, { useState, useCallback, memo } from "react";
-import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import { UPDATE_COMMENT, DELETE_COMMENT } from "../graphql/mutation/comment";
 import { useInput } from "../hooks";
@@ -14,64 +13,6 @@ import Loader from "./Loader";
 import { timeForToday } from "../lib/date";
 import Dropdown from "./Dropdown";
 
-const CommentWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    border-top: ${(props) => props.theme.boxBorder};
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-`;
-
-const InfoWrapper = styled.div`
-    margin-bottom: 50px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    & > * {
-        margin-right: 10px;
-    }
-`;
-
-const BtnWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-
-    & > button {
-        flex: 1;
-    }
-
-    & > button:nth-child(1) {
-        background: ${(props) => props.theme.infoColor};
-        border: 1px solid ${(props) => props.theme.infoColor};
-    }
-`;
-
-const OptionWrapper = styled.div`
-    flex: 1;
-    text-align: right;
-    position: relative;
-`;
-
-const MoreWrapper = styled.div`
-    position: relative;
-    & #dropdown-custom-2 {
-        position: absolute;
-        top: -20px;
-        right: 0;
-        opacity: 0;
-        z-index: 1;
-    }
-
-    & svg {
-        fill: gray;
-        cursor: pointer;
-        position: absolute;
-        top: -10px;
-        right: -5px;
-    }
-`;
-
 /**
  * 댓글 렌더링 컴포넌트
  *
@@ -79,6 +20,7 @@ const MoreWrapper = styled.div`
  * @author frisk
  */
 const CommentItem = ({ id, content, user, createdAt }) => {
+    const displayName = "fr-comment";
     /**
      * 로컬 상태 변경 모듈 활성화
      */
@@ -222,15 +164,15 @@ const CommentItem = ({ id, content, user, createdAt }) => {
     }, []);
 
     return (
-        <CommentWrapper>
+        <li className={`${displayName}`}>
             {(updateLoading || deleteLoading) && <Loader />}
-            <InfoWrapper>
+            <div className={`${displayName}__info`}>
                 <Avatar src={user.avatar.url} size="50" userId={user.id} />
                 <span>{user.nickname}</span>
                 <span>·</span>
                 <span>{timeForToday(createdAt)}</span>
                 {isMyComment && (
-                    <OptionWrapper>
+                    <div className={`${displayName}__extension`}>
                         <Dropdown
                             id={`dropdown_${id}`}
                             disabled={disabled}
@@ -250,9 +192,9 @@ const CommentItem = ({ id, content, user, createdAt }) => {
                                 }
                             ]}
                         />
-                    </OptionWrapper>
+                    </div>
                 )}
-            </InfoWrapper>
+            </div>
             {active ? (
                 <>
                     <FormTextArea
@@ -263,17 +205,17 @@ const CommentItem = ({ id, content, user, createdAt }) => {
                         label="댓글"
                         {...comment}
                     />
-                    <BtnWrapper>
+                    <div className={`${displayName}__submit`}>
                         <Button onClick={handleCancel}>취소</Button>
                         <Button onClick={handleUpdate}>댓글 수정</Button>
-                    </BtnWrapper>
+                    </div>
                 </>
             ) : (
                 <pre>
                     {disabled ? <em>삭제된 댓글입니다.</em> : contentState}
                 </pre>
             )}
-        </CommentWrapper>
+        </li>
     );
 };
 

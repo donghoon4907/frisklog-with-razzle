@@ -1,12 +1,4 @@
 import React from "react";
-import styled from "styled-components";
-
-const Container = styled.time`
-    font-weight: 400;
-    opacity: 0.5;
-    display: inline-block;
-    font-size: 12px;
-`;
 
 /**
  * * 공통 타임스탬프 컴포넌트
@@ -14,6 +6,8 @@ const Container = styled.time`
  * @Component
  * @author frisk
  */
-const Timestamp = ({ children }) => <Container>{children}</Container>;
+const Timestamp = ({ children }) => (
+    <time className="fr-timestamp">{children}</time>
+);
 
 export default Timestamp;

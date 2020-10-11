@@ -1,0 +1,29 @@
+@import "../utilities/variables";
+
+.fr-post {
+    &__column {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        & > * {
+            margin-right: 10px;
+        }
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    &__form {
+        & input {
+            background: white;
+        }
+    }
+
+    &__category {
+        width: 10rem;
+    }
+}

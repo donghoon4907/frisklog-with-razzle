@@ -1,0 +1,20 @@
+@import "../utilities/variables";
+
+.fr-btn {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    border-radius: $fr-border-radius;
+    color: white !important;
+    font-weight: 600;
+    background: $fr-btn-color;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid $fr-btn-color;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}

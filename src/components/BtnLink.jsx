@@ -1,30 +1,5 @@
 import React from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
-
-const Container = styled(Link)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    border: 0;
-    border-radius: ${(props) => props.theme.borderRadius};
-    color: white;
-    font-weight: 600;
-    background: ${(props) => props.theme.blueColor};
-    text-align: center;
-    padding: 5px;
-    font-size: 14px;
-    border: 1px solid ${(props) => props.theme.blueColor};
-    text-decoration: none !important;
-    position: relative;
-
-    &:hover {
-        opacity: 0.8;
-        color: white;
-    }
-`;
 
 /**
  * * 공통 버튼 링크 컴포넌트
@@ -34,8 +9,8 @@ const Container = styled(Link)`
  * @param props.to 이동할 url
  */
 const BtnLink = ({ to, children }) => (
-    <Container to={to} role="button">
+    <Link to={to} className="fr-btn fr-link" role="button">
         {children}
-    </Container>
+    </Link>
 );
 export default BtnLink;

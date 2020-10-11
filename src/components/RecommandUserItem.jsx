@@ -1,35 +1,7 @@
 import React, { useState, useRef, useCallback, memo } from "react";
-import styled from "styled-components";
 import { Overlay } from "react-bootstrap";
 import { useSelector } from "../context";
 import Avatar from "./Avatar";
-
-const Container = styled.div`
-    height: 50px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    position: relative;
-    gap: 5px;
-`;
-
-const AvatarWrapper = styled.div`
-    width: 50px;
-`;
-
-const Title = styled.div`
-    width: 150px;
-    font-weight: 500;
-    font-size: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-bottom: 0;
-`;
-
-const SubTitle = styled.div`
-    font-size: 13px;
-`;
 
 /**
  * * 추천 사용자 컴포넌트
@@ -43,6 +15,7 @@ const SubTitle = styled.div`
  *
  */
 const RecommandUserItem = ({ id, avatar, nickname, postCount }) => {
+    const displayName = "fr-user";
     /**
      * 로컬 상태 감시 모듈 활성화
      */
@@ -73,18 +46,19 @@ const RecommandUserItem = ({ id, avatar, nickname, postCount }) => {
     }, [isCollapseNav]);
 
     return (
-        <Container>
-            <AvatarWrapper
+        <li className={`${displayName}`}>
+            <div
+                className={`${displayName}__avatar-wrapper`}
                 ref={$avatar}
                 onMouseEnter={handleEnterAvatar}
                 onMouseLeave={handleLeaveAvatar}
             >
                 <Avatar size="45" src={avatar.url} userId={id} />
-            </AvatarWrapper>
+            </div>
             {isCollapseNav === "expand" && (
-                <div>
-                    <Title>{nickname}</Title>
-                    <SubTitle>{postCount} posts</SubTitle>
+                <div className={`${displayName}__name-wrapper`}>
+                    <p className={`${displayName}__name`}>{nickname}</p>
+                    <em>{postCount} posts</em>
                 </div>
             )}
             <Overlay target={$avatar.current} show={show} placement="right">
@@ -103,13 +77,13 @@ const RecommandUserItem = ({ id, avatar, nickname, postCount }) => {
                         }}
                     >
                         <div>
-                            <Title>{nickname}</Title>
-                            <SubTitle>{postCount} posts</SubTitle>
+                            <p className={`${displayName}__name`}>{nickname}</p>
+                            <em>{postCount} posts</em>
                         </div>
                     </div>
                 )}
             </Overlay>
-        </Container>
+        </li>
     );
 };
 

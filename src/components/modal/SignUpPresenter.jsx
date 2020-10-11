@@ -1,25 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 import { FormInput } from "../Form";
 import Button from "../Button";
 import Loader from "../Loader";
 import { Thumbnail } from "../../assets/icon";
-
-const UploadWrapper = styled.div`
-    ${(props) => props.theme.whiteBox}
-    width: 100%;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    cursor: pointer;
-
-    & img {
-        width: 100%;
-        height: 100%;
-    }
-`;
 
 /**
  * * 회원가입 프레젠터 컴포넌트
@@ -51,7 +34,12 @@ const SignUpPresenter = ({
         <>
             {(uploadLoading || signUpLoading) && <Loader />}
             <form onSubmit={onSubmit}>
-                <UploadWrapper onClick={onClickFile} role="button" tabIndex="0">
+                <div
+                    className="fr-modal-auth__upload"
+                    onClick={onClickFile}
+                    role="button"
+                    tabIndex="0"
+                >
                     {preview ? (
                         <img
                             src={preview}
@@ -69,7 +57,7 @@ const SignUpPresenter = ({
                         hidden
                         accept="image/jpg, image/jpeg, image/png, .gif"
                     />
-                </UploadWrapper>
+                </div>
                 <FormInput
                     type="email"
                     placeholder="이메일을 입력하세요."

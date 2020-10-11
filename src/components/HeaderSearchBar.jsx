@@ -1,40 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import { useDispatch } from "../context";
 import { HIDE_SEARCH_BAR } from "../context/action";
-import Input from "./Input";
 import { Label } from "./Form";
-
-const SearchForm = styled.form`
-    position: relative;
-    margin: 0 auto;
-    width: 500px;
-
-    ${(props) => props.theme.media.tablet} {
-        width: calc(100% - 2rem);
-    }
-`;
-
-const Wrapper = styled.div`
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-`;
-
-const SearchInput = styled(Input)`
-    background: ${(props) => props.theme.bgColor};
-    padding: 5px;
-    font-size: 14px;
-    border-radius: 3px;
-    text-align: center;
-    position: relative;
-
-    &::placeholder {
-        opacity: 0.8;
-        font-weight: 200;
-    }
-`;
 
 /**
  * * 검색 바 컴포넌트
@@ -101,21 +69,24 @@ const HeaderSearchBar = () => {
     }, []);
 
     return (
-        <SearchForm onSubmit={handleSearchSubmit}>
-            <Label htmlFor="search" val={searchKeyword}>
-                검색어를 입력하세요.
-            </Label>
-            <Wrapper>
-                <SearchInput
+        <form className="fr-header__search__form" onSubmit={handleSearchSubmit}>
+            <Label
+                id="search"
+                value={searchKeyword}
+                label="검색어를 입력하세요."
+            />
+            <div className="fr-header__search__input-wrapper">
+                <input
+                    className="fr-form__input fr-header__search__input"
                     placeholder="검색어를 입력하세요."
-                    name="search"
+                    id="search"
                     value={searchKeyword}
                     onChange={handleChangeSearchKeyword}
                     autoComplete="off"
                     ref={$search}
                 />
-            </Wrapper>
-        </SearchForm>
+            </div>
+        </form>
     );
 };
 
