@@ -68,20 +68,20 @@ const App = () => {
     const handleResize = useCallback(
         (e) => {
             const { innerWidth } = e.target;
-            /**
-             * 네비게이션이 축소된 경우
-             */
-            if (isCollapseNav === "contract") {
-                return;
-            }
+
             if (innerWidth <= 922) {
                 /**
-                 * 네비게이션 축소
+                 * 네비게이션이 축소된 경우
                  */
-                dispatch({
-                    type: CONTRACT_NAVIGATION
-                });
-                setStorage(COLLAPSE_KEY, "contract");
+                if (isCollapseNav !== "contract") {
+                    /**
+                     * 네비게이션 축소
+                     */
+                    dispatch({
+                        type: CONTRACT_NAVIGATION
+                    });
+                    setStorage(COLLAPSE_KEY, "contract");
+                }
             }
             /**
              * 모바일 여부 설정
