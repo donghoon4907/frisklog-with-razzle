@@ -46,9 +46,9 @@ const Nav = () => {
         /**
          * 로컬 상태 업데이트
          */
-        if (isCollapse === "contract") {
+        if (isCollapse === "expand") {
             dispatch({
-                type: CONTRACT_NAVIGATION
+                type: EXPAND_NAVIGATION
             });
         }
     }, []);

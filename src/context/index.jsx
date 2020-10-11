@@ -36,7 +36,7 @@ const initialState = {
     isShowSearchBar: false,
     isShowFilterBar: false,
     isShowLoginModal: false,
-    isCollapseNav: "expand",
+    isCollapseNav: "contract",
     isMobile: false,
     activePost: {
         id: "",
@@ -63,8 +63,11 @@ const initialState = {
 /**
  * * 로컬 상태 제공 컴포넌트
  */
-export function ContextProvider({ children }) {
-    const [state, dispatch] = useReducer(reducer, initialState);
+export function ContextProvider({ children, context }) {
+    const [state, dispatch] = useReducer(reducer, {
+        ...initialState,
+        ...context
+    });
 
     return (
         <Context.Provider value={state}>

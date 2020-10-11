@@ -74,7 +74,6 @@ const App = () => {
             if (isCollapseNav === "contract") {
                 return;
             }
-
             if (innerWidth <= 922) {
                 /**
                  * 네비게이션 축소

@@ -1,60 +1,69 @@
-import path from 'path'
-import express from 'express'
-import { StaticRouter } from 'react-router-dom'
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { ApolloProvider } from '@apollo/client'
-import { getDataFromTree } from '@apollo/client/react/ssr'
-import { Helmet } from 'react-helmet'
-import cookieParser from 'cookie-parser'
-import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server'
-import { ContextProvider } from './context'
-import { initializeApollo } from './lib/apollo'
-import App from './App'
+import path from "path";
+import express from "express";
+import { StaticRouter } from "react-router-dom";
+import React from "react";
+import { renderToString } from "react-dom/server";
+import { ApolloProvider } from "@apollo/client";
+import { getDataFromTree } from "@apollo/client/react/ssr";
+import { Helmet } from "react-helmet";
+import cookieParser from "cookie-parser";
+import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
+import { ContextProvider } from "./context";
+import { initializeApollo } from "./lib/apollo";
+import App from "./App";
+import { COLLAPSE_KEY } from "./lib/state";
 
 // const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 /** init express */
-const server = express()
+const server = express();
 /** init cookie parser */
-server.use(cookieParser())
+server.use(cookieParser());
 
 server
-    .disable('x-powered-by')
+    .disable("x-powered-by")
     .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-    .get('/*', async (req, res) => {
-        const location = req.url
+    .get("/*", async (req, res) => {
+        const location = req.url;
+
+        const collapse = req.cookies[COLLAPSE_KEY];
 
         const extractor = new ChunkExtractor({
-            statsFile: path.resolve('build/loadable-stats.json'),
-            entrypoints: ['client']
-        })
+            statsFile: path.resolve("build/loadable-stats.json"),
+            entrypoints: ["client"]
+        });
         /** Init apollo client */
-        const client = initializeApollo()
+        const client = initializeApollo();
 
         const Root = () => (
             <ChunkExtractorManager extractor={extractor}>
                 <ApolloProvider client={client}>
-                    <ContextProvider>
+                    <ContextProvider
+                        context={{
+                            isCollapseNav: collapse
+                                ? JSON.parse(collapse)
+                                : "contract"
+                        }}
+                    >
                         <StaticRouter location={location} context={{}}>
                             <App />
                         </StaticRouter>
                     </ContextProvider>
                 </ApolloProvider>
             </ChunkExtractorManager>
-        )
+        );
 
         try {
             /** get query in pages */
-            await getDataFromTree(<Root />)
+            await getDataFromTree(<Root />);
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
         /** Get apollo cache */
-        const initialApolloState = client.extract()
+        const initialApolloState = client.extract();
         /** When the app is rendered collect the styles that are used inside it */
-        const markup = renderToString(extractor.collectChunks(<Root />))
+        const markup = renderToString(extractor.collectChunks(<Root />));
 
-        const helmet = Helmet.renderStatic()
+        const helmet = Helmet.renderStatic();
 
         res.status(200).send(`
                 <!DOCTYPE html>
@@ -87,11 +96,11 @@ server
                         <script>
                             window.__APOLLO_STATE__ = ${JSON.stringify(
                                 initialApolloState
-                            ).replace(/</g, '\\u003c')};
+                            ).replace(/</g, "\\u003c")};
                         </script>
                     </body>
                 </html>
-            `)
-    })
+            `);
+    });
 
-export default server
+export default server;
