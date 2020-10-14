@@ -205,11 +205,7 @@ const Post = ({
                         </BtnLink>
                     </div>
                     <div className="d-flex justify-content-start align-items-center">
-                        <button
-                            aria-pressed={isLike ? true : false}
-                            aria-label="Like"
-                            onClick={handleLike}
-                        >
+                        <button onClick={handleLike}>
                             {isLike ? (
                                 <HeartFull style={{ width: 32, height: 32 }} />
                             ) : (
@@ -228,14 +224,12 @@ const Post = ({
                         <button
                             className="btn btn-info mr-1"
                             onClick={handleUpdate}
-                            aria-label="Update"
                         >
                             수정
                         </button>
                         <button
                             className="btn btn-danger"
                             onClick={handleDelete}
-                            aria-label="Delete"
                         >
                             삭제
                         </button>

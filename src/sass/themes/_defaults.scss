@@ -76,6 +76,11 @@ button:focus {
     @include wb;
 }
 
+.tui-editor-contents pre[class*="lang"] {
+    background: #202020 !important;
+    color: white !important;
+}
+
 .tui-editor-contents img {
     width: 100%;
 }

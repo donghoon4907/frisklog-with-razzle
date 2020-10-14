@@ -53,26 +53,21 @@ const PostCardTypeItem = ({
                         </BtnLink>
                     </div>
                 </div>
-
-                {thumbnail && (
-                    <Link
-                        to={`/post/${id}`}
-                        className={`${displayName}__img-wrapper fr-link`}
-                    >
-                        <div className={`${displayName}__img-bg`}>
-                            <img
-                                className={`${displayName}__img`}
-                                src={thumbnail}
-                                alt="post thumbnail"
-                            />
-                        </div>
-                    </Link>
-                )}
-
                 <Link
                     className={`${displayName}__body fr-link`}
                     to={`/post/${id}`}
                 >
+                    {thumbnail && (
+                        <div className={`${displayName}__img-wrapper fr-link`}>
+                            <div className={`${displayName}__img-bg`}>
+                                <img
+                                    className={`${displayName}__img`}
+                                    src={thumbnail}
+                                    alt="post thumbnail"
+                                />
+                            </div>
+                        </div>
+                    )}
                     <div className={`${displayName}__body__title-wrapper`}>
                         <h4 className="fr-card__body__title">{title}</h4>
                     </div>
@@ -84,11 +79,11 @@ const PostCardTypeItem = ({
                     </p>
                     <div className={`${displayName}__body__meta`}>
                         <div>
-                            <span title="좋아요 수">
+                            <span>
                                 <HeartFull />
                                 <span>{likeCount}</span>
                             </span>
-                            <span title="댓글 수">
+                            <span>
                                 <Comment />
                                 <span>{commentCount}</span>
                             </span>

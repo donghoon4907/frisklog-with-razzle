@@ -24,7 +24,7 @@ const Header = () => {
         <div className={`${displayName}-wrapper`}>
             <header className={`${displayName}`}>
                 <div className={`${displayName}-column`}>
-                    <Link to="/" role="button">
+                    <Link to="/">
                         <img
                             className={`${displayName}__logo`}
                             src="https://frisk.s3.ap-northeast-2.amazonaws.com/upload/4424b841-b125-4b9a-bcdf-a507ef751bed"

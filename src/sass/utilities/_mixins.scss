@@ -16,7 +16,7 @@
 }
 /* white box */
 @mixin wb {
-    border: $fr-box-border;
-    border-radius: $fr-border-radius;
-    background: white;
+    border: $fr-box-border !important;
+    border-radius: $fr-border-radius !important;
+    background: white !important;
 }

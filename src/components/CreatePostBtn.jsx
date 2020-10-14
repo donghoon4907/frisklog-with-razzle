@@ -47,11 +47,11 @@ const CreatePostBtn = () => {
     return (
         <button
             className="fr-header__post"
-            aria-haspopup="true"
             onClick={handleClick}
             title="포스트 등록"
         >
             <Add />
+            <span className="a11y-hidden">포스트 등록</span>
         </button>
     );
 };

@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
  * @param props.to 이동할 url
  */
 const BtnLink = ({ to, children }) => (
-    <Link to={to} className="fr-btn fr-link" role="button">
+    <Link to={to} className="fr-btn fr-link">
         {children}
     </Link>
 );

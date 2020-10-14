@@ -34,7 +34,11 @@ const SearchCategoryPage = ({
                 <Subject>
                     <span>#{content}</span>
                     <div>
-                        <Select value={orderBy} onChange={handleChangeOrderBy}>
+                        <Select
+                            value={orderBy}
+                            onChange={handleChangeOrderBy}
+                            title="정렬"
+                        >
                             {searchOptions.sort.map(({ text, value, id }) => (
                                 <option value={value} key={id}>
                                     {text}

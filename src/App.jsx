@@ -11,12 +11,12 @@ import { CONTRACT_NAVIGATION, SET_ME, SET_IS_MOBILE } from "./context/action";
 import { ME } from "./graphql/query/user";
 import { COLLAPSE_KEY, setStorage } from "./lib/state";
 
-import "github-markdown-css/github-markdown.css";
+import "./sass/main.scss";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import "./sass/main.scss";
+import "highlight.js/styles/atom-one-dark.css";
 
 const Feed = loadable(() => import("./pages/feed"));
 const SearchPostPage = loadable(() => import("./pages/search/SearchPostPage"));

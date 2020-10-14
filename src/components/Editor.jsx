@@ -1,4 +1,6 @@
 import React, { useCallback, useRef } from "react";
+import codeSyntaxHightlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import hljs from "highlight.js";
 import Loader from "./Loader";
 import { useLazyAxios } from "../hooks";
 
@@ -20,6 +22,7 @@ const PostEditor = (props) => {
         useCommandShortcut,
         onChange
     } = props;
+
     /**
      * 업로드 요청을 위한 Axios 활성화
      */
@@ -50,6 +53,7 @@ const PostEditor = (props) => {
             {typeof window !== "undefined" && (
                 <Editor
                     {...props}
+                    plugins={[[codeSyntaxHightlight, { hljs }]]}
                     initialValue={initialValue || ""}
                     previewStyle={previewStyle || "vertical"}
                     height={height || "75vh"}

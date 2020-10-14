@@ -199,7 +199,7 @@ const CommentItem = ({ id, content, user, createdAt }) => {
                 <>
                     <FormTextArea
                         placeholder="댓글을 입력하세요."
-                        name="comment"
+                        id="update_comment"
                         autoComplete="off"
                         height={100}
                         label="댓글"

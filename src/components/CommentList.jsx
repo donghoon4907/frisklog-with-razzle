@@ -180,7 +180,7 @@ const CommentList = () => {
             {(loading || createLoading) && <Loader />}
             <FormTextArea
                 placeholder="댓글을 입력하세요."
-                name="comment"
+                id="comment"
                 autoComplete="off"
                 height={100}
                 {...comment}

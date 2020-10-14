@@ -51,7 +51,7 @@ const User = ({
                             <div
                                 className={`${displayName}__info__description`}
                             >
-                                <h1>{nickname}</h1>
+                                <h2>{nickname}</h2>
                                 <em>{postCount} posts</em>
                             </div>
                         </div>
@@ -61,6 +61,7 @@ const User = ({
                                 <Select
                                     value={orderBy}
                                     onChange={handleChangeOrderBy}
+                                    title="정렬"
                                 >
                                     {searchOptions.sort.map((sort) => (
                                         <option

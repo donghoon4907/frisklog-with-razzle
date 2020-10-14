@@ -62,21 +62,13 @@ const ProfileBtn = () => {
             {id ? (
                 <div className="d-flex justify-content-start">
                     <Avatar src={avatar.url} size="30" userId={id} />
-                    <button
-                        onClick={handleClick}
-                        className="ml-2"
-                        aria-label="Logout"
-                    >
+                    <button onClick={handleClick} className="ml-2">
                         <Logout />
-                        <span className="a11y-hidden">로그아웃 하기</span>
+                        <span className="a11y-hidden">로그아웃</span>
                     </button>
                 </div>
             ) : (
-                <button
-                    onClick={handleClick}
-                    aria-haspopup="true"
-                    aria-label="Login"
-                >
+                <button onClick={handleClick}>
                     <Profile />
                     <span className="a11y-hidden">로그인 하기</span>
                 </button>

@@ -64,13 +64,7 @@ const Nav = () => {
                 }`}
             >
                 {isCollapseNav === "expand" && <h5>추천 블로그</h5>}
-                <button
-                    aria-pressed={isCollapseNav === "expand"}
-                    aria-expanded={isCollapseNav === "expand"}
-                    aria-controls="nav"
-                    aria-label="Collapse"
-                    onClick={handleClickCollapse}
-                >
+                <button onClick={handleClickCollapse}>
                     <Collapse />
                     <span className="a11y-hidden">
                         {isCollapseNav === "expand"

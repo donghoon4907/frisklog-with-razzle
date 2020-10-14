@@ -92,11 +92,11 @@ const PostListTypeItem = ({
                         )}
                     </div>
                     <div className={`${displayName}__meta__footer__column`}>
-                        <div title="좋아요 수">
+                        <div>
                             <HeartFull />
                             <span>{likeCount}</span>
                         </div>
-                        <div title="댓글 수">
+                        <div>
                             <Comment />
                             <span>{commentCount}</span>
                         </div>

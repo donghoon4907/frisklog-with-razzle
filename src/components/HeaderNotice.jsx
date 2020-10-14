@@ -45,7 +45,6 @@ const HeaderNotice = () => {
                             <Notice />
                             <u
                                 onClick={() => handleClick(notice)}
-                                aria-haspopup="true"
                                 role="link"
                                 tabIndex="0"
                             >
