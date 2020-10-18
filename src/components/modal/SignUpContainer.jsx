@@ -66,7 +66,7 @@ const SignUpContainer = ({ setAction }) => {
 
             const { data, error } = await call({
                 method: "post",
-                url: `${process.env.BACKEND_API_PATH}/api/upload`,
+                url: `${process.env.RAZZLE_BACKEND_API_PATH}/api/upload`,
                 data: formData,
                 headers: { "content-type": "multipart/form-data" }
             });

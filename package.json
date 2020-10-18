@@ -10,7 +10,7 @@
         "precommit": "lint-staged",
         "format": "prettier --write '**/*.{js,jsx,css,md}'",
         "lint": "eslint . --cache --fix",
-        "deploy": "gcloud app deploy"
+        "deploy": "gcloud app deploy && gcloud app browse"
     },
     "dependencies": {
         "@apollo/client": "^3.2.1",
